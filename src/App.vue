@@ -45,3 +45,19 @@ const onChangeLanguage = (newLang:string) => {
 </template>
 
 
+<style>
+.rtl, .rtl *{
+  direction: rtl;
+  text-align: right;
+}
+.rtl .el-step__description{
+  padding-right: 0 !important;
+}
+.rtl span.el-switch__label--right{
+  margin-left: 0 !important;
+  margin-right: 4px !important;
+}
+.el-tabs__nav-scroll{
+  display: flex !important;
+}
+</style>

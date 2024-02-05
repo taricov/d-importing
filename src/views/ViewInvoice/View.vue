@@ -50,7 +50,7 @@ return _.capitalize(t(translation))
           <el-steps :active="active" finish-status="success">
             <el-step :title="tt('invoices.steps.one')" :description="tt('invoices.steps.one_desc')"/>
             <el-step :title="tt('invoices.steps.two')" :description="tt('invoices.steps.two_desc')"/>
-            <el-step :title="tt('invoices.steps.three')" :description="tt('invoices.steps.three_desc')"/>
+            <el-step :title="tt('invoices.steps.three')" />
           </el-steps>
 
           <el-button v-if="active < 2" style="margin-top: 12px" @click="next">{{ tt('invoices.steps.next') }}</el-button>
