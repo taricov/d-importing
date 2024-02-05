@@ -1,24 +1,25 @@
 <script lang="ts" setup>
 import _ from "lodash"
 // import { tt } from "../../utils/untils"
+import VUpload from "../../components/VUpload/Upload.vue"
 import { TinvoiceSettings } from "../../@types/types.ts";
 import { ref } from "vue";
 import {useI18n} from 'vue-i18n' 
-const active = ref(0);
+const stepActive = ref(0);
 const next = () => {
-  if (active.value++ >= 2){
-    active.value = 2
+  if (stepActive.value++ >= 2){
+    // stepActive.value = 2
     return;
   };
 };
 const previous = () => {
-  if (active.value-- <= 0){
-    active.value = 0
+  if (stepActive.value-- <= 0){
+    stepActive.value = 0
     return
   };
 };
 const finish = () => {
-    active.value = 3
+  stepActive.value = 3
     activeName.value = ["import"]
   };
 import { Check, Close } from '@element-plus/icons-vue'
@@ -47,15 +48,19 @@ return _.capitalize(t(translation))
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.two')" name="upload">
         <div>
-          <el-steps :active="active" finish-status="success">
+          <el-steps :active="stepActive" finish-status="success">
             <el-step :title="tt('invoices.steps.one')" :description="tt('invoices.steps.one_desc')"/>
             <el-step :title="tt('invoices.steps.two')" :description="tt('invoices.steps.two_desc')"/>
             <el-step :title="tt('invoices.steps.three')" />
           </el-steps>
 
-          <el-button v-if="active < 2" style="margin-top: 12px" @click="next">{{ tt('invoices.steps.next') }}</el-button>
-          <el-button style="margin-top: 12px" @click="previous">{{t('invoices.steps.prev')}}</el-button>
-          <el-button v-if="active >= 2" style="margin-top: 12px" @click="finish">{{ tt('invoices.steps.fini') }} <el-icon><Arrow /></el-icon></el-button>
+          <v-upload />
+
+          <el-button :disabled="stepActive === 0" style="margin-top: 12px" @click="previous">{{tt('invoices.steps.prev')}}</el-button>
+
+          <el-button :disabled="stepActive >= 2" style="margin-top: 12px" @click="next">{{ tt('invoices.steps.next') }}</el-button>
+
+          <el-button :disabled="stepActive < 2" style="margin-top: 12px" @click="finish">{{ tt('invoices.steps.fini') }} <el-icon><Arrow /></el-icon></el-button>
         </div>
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.three')" name="import">
