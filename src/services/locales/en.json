@@ -1,0 +1,26 @@
+{
+  "tabs": {
+    "one": "invoices",
+    "two": "clients",
+    "three": "assets",
+    "four": "journal transactions"
+  },
+  "invoices": {
+    "accordion": {
+      "one": "settings",
+      "two": "upload file",
+      "three": "import"
+    },
+    "steps": {
+      "one": "upload",
+      "two": "map",
+      "three": "finish",
+      "one_desc": "upload your Excel/Csv files",
+      "two_desc": "Map the columns to Daftra's invoices",
+      "three_desc": "All set! ready to import...",
+      "next": "next",
+      "prev": "previous",
+      "fini": "ready"
+    }
+  }
+}

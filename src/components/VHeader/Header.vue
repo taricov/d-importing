@@ -1,31 +1,41 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import {ref } from "vue";
+// @ts-ignore
 import _ from "lodash";
-import ar from "element-plus/dist/locale/ar.mjs";
-import en from "element-plus/dist/locale/en.mjs";
 const emit = defineEmits(["currentMode", "currentLanguage"])
+import {useI18n} from 'vue-i18n' 
+
+const {t, locale} = useI18n();
 
 // DarkMode:
 const isDark = ref<Boolean>(false);
 const currentMode = ref<String>("light");
 const toggleDark = () =>{
   isDark.value = !isDark.value
-  currentMode.value = isDark.value === false ? 'light' : 'dark'
-  if(currentMode.value === "dark"){
+  if(isDark.value){
     document.documentElement.classList.add("dark")
   }else{
     document.documentElement.classList.remove("dark")
-    
   }
-  emit("currentMode", currentMode.value);
+  currentMode.value = isDark.value ? 'dark' : 'light'
+  // emit("currentMode", currentMode.value);
   }
 
 //Language:
-const language = ref("en");
-const locale = computed(() => (language.value === "ar" ? ar : en));
+const isEnglish = ref<Boolean>(true);
+// const locale = ref<String>("en");
+const language = ref<String>("en");
 const toggleLang = () => {
-  language.value = language.value === "ar" ? "en" : "ar";
-  emit("currentLanguage", language.value);
+isEnglish.value = !isEnglish.value;
+language.value = isEnglish.value ? "en" : "عربي";
+locale.value = isEnglish.value ? "en" : "ar";
+  emit("currentLanguage", locale.value)
+
+  if(!isEnglish.value){
+    document.querySelector('body')!.setAttribute("dir", "rtl")
+  }else{
+    document.querySelector('body')!.removeAttribute("dir")
+  }
 
 };
 </script>
