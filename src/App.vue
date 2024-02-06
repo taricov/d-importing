@@ -51,6 +51,10 @@ const onChangeLanguage = (newLang:string) => {
   margin-left: 0 !important;
   margin-right: 4px !important;
 }
+.rtl .el-form-item__label{
+  padding-right: 0 !important;
+  padding-left: 12px !important;
+}
 .el-tabs__nav-scroll{
   display: flex !important;
 }

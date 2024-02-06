@@ -3,13 +3,21 @@ import { ref } from 'vue'
 // @ts-ignore
 import _ from 'lodash'
 import fields from "../../data/fields"
-
-const value = ref('')
+const value = ref<String>("")
+const emit = defineEmits(['modelValue'])
 const options = ref(fields)
+defineProps(["idx"])
+function updateValue(e, idx){
+  emit('modelValue', [e, idx])
+  options.value.splice(idx, 1)
+  console.log(options.value)
+}
 </script>
 <template>
+ {{ idx+1 }}: 
   <el-select
-    v-model="value"
+    v-model:modelValue="value"
+    @change="updateValue($event, idx)"
     clearable
     placeholder="Select"
     style="width: 240px"

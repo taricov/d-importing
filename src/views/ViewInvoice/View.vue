@@ -3,23 +3,41 @@ import _ from "lodash";
 // import { tt } from "../../utils/untils"
 import VUpload from "../../components/VUpload/Upload.vue";
 import VSelect from "../../components/VSelect/Select.vue";
+import VSummary from "../../components/VSummary/Summary.vue";
+import VTable from "../../components/VTable/Table.vue";
+import VSettingsForm from "../../components/VSettingsForm/SettingsForm.vue";
 import { TinvoiceSettings } from "../../@types/types.ts";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
+const invoiceStats = ref({});
 const stepActive = ref(0);
-defineProps(["headers"]);
+defineProps(["headers", "tableRows"]);
 
-const extracedHeaders = ref<String[]>([]);
+const extractedHeaders = ref<String[]>([]);
+const data = ref<any[]>([]);
+const mappedCols = ref<String[]>([]);
+const extractData = (val) =>{ 
+  data.value = val;
+  console.log(data.value)
+
+}
+
+const generateInvoiceStats = () =>{
+  const count = data.value.length || 0
+  const beforeTax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0 
+  const tax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0
+  const afterTax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0
+  invoiceStats.value = {beforeTax, tax, afterTax, count}
+}
+
 const extractHeaders = (val) => {
-  extracedHeaders.value = val;
-  console.log("extracted", extracedHeaders.value);
-  if (extracedHeaders.value.length > 0) {
+  extractedHeaders.value = val;
+  if (extractedHeaders.value.length > 0) {
     stepActive.value = 1;
   }
 };
 const next = () => {
   if (stepActive.value++ >= 2) {
-    // stepActive.value = 2
     return;
   }
 };
@@ -29,19 +47,22 @@ const previous = () => {
     return;
   }
 };
-const finish = () => {
+const ready = () => {
   stepActive.value = 3;
-  activeName.value = ["import"];
+  activeName.value = ["preview"];
 };
 import { Check, Close } from "@element-plus/icons-vue";
 
 const { t, locale } = useI18n();
 
 const activeName = ref<String[]>(["settings", "upload", "import"]);
-const v = ref<Boolean>(false);
-// const invoiceSettings = ref<TinvoiceSettings>({
-//   paid:
-// });
+const invoiceSettings = ref<TinvoiceSettings>({});
+const updateMapping = (val) => {
+
+mappedCols.value[val[0]] =  extractedHeaders.value[val[1]]
+console.log(mappedCols.value)
+
+}
 
 const tt = (translation) => {
   return _.capitalize(t(translation));
@@ -52,7 +73,7 @@ const tt = (translation) => {
   <div class="collapse">
     <el-collapse v-model="activeName">
       <el-collapse-item name="settings" :title="tt('invoices.accordion.one')">
-        <el-switch v-model="v" active-text="Inline Tax" />
+        <v-settings-form />
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.two')" name="upload">
         <div>
@@ -69,17 +90,17 @@ const tt = (translation) => {
           </el-steps>
           <!-- Step-based rendered componented -->
           <transition name="el-fade-in">
-            <v-upload @headers="extractHeaders" v-show="stepActive == 0" />
+            <v-upload @headers="extractHeaders" @tableRows="extractData" v-show="stepActive == 0" />
           </transition>
           <transition name="el-fade-in">
           <div>
-            <el-row :gutter="10" v-show="stepActive == 1" v-for="col in extracedHeaders" :key="col">
-              <el-col :span="12" style="text-align:center"> {{ col }} </el-col>
+            <el-row :gutter="10" v-show="stepActive == 1" v-for="(col, i) in extractedHeaders" :key="col">
+              <el-col :span="12" style="text-align:center"> {{  col }} </el-col>
               <el-col :span="12" style="text-align:center">
-                <v-select />
+                <v-select @modelValue="updateMapping" :idx="i" />
               </el-col>
             </el-row>
-            <!-- <el-table v-show="stepActive == 1"  :data="extracedHeaders" border style="width: 100%">
+            <!-- <el-table v-show="stepActive == 1"  :data="extractedHeaders" border style="width: 100%">
               <el-table-column label="Original"  />
               <el-table-column label="Mapped" >
               </el-table-column>
@@ -87,6 +108,10 @@ const tt = (translation) => {
             </el-table> -->
           </div>
           </transition>
+          <transition name="el-fade-in">
+            <v-summary v-show="stepActive == 2" :invoiceStats="invoiceStats" />
+</transition>
+
 
           <div>
             <el-button
@@ -103,13 +128,14 @@ const tt = (translation) => {
               >{{ tt("invoices.steps.next") }}</el-button
             >
 
-            <el-button :disabled="stepActive < 2" style="margin-top: 12px" @click="finish"
+            <el-button :disabled="stepActive < 2" style="margin-top: 12px" @click="ready"
               >{{ tt("invoices.steps.fini") }} <el-icon><Arrow /></el-icon
             ></el-button>
           </div>
         </div>
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.three')" name="preview">
+      <v-table  :data="data" :headers="headers"/>
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.four')" name="import">
       </el-collapse-item>

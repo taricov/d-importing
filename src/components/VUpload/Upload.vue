@@ -8,6 +8,7 @@ const emits = defineEmits()
 
 const fileList = ref<UploadUserFile[]>([])
 const headers = ref<String[]>([])
+const data = ref<any[]>([])
 
 const onUploadingFile: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
   fileList.value = [...fileList.value, uploadFile]
@@ -17,8 +18,9 @@ const onUploadingFile: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
     const sheet = parsed.Sheets[parsed.SheetNames[0]]
     const json = await utils.sheet_to_json(sheet)
      headers.value = Object.entries(json[0]!).map(([k, v]) => k)
-     console.log(headers.value)
+     data.value = json.slice(1, json.length)
     emits("headers", headers.value)
+    emits("tableRows", json)
   })
 }
 
