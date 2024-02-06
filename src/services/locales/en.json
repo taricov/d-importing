@@ -9,7 +9,8 @@
     "accordion": {
       "one": "settings",
       "two": "upload file",
-      "three": "import"
+      "three": "preview",
+      "four": "import"
     },
     "steps": {
       "one": "upload",

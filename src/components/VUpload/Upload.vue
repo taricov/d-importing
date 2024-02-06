@@ -4,8 +4,10 @@ import { read, utils, writeFile } from 'xlsx';
 import { UploadFilled } from '@element-plus/icons-vue'
 import type { UploadProps, UploadUserFile } from 'element-plus'
 
+const emits = defineEmits()
 
 const fileList = ref<UploadUserFile[]>([])
+const headers = ref<String[]>([])
 
 const onUploadingFile: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
   fileList.value = [...fileList.value, uploadFile]
@@ -14,9 +16,9 @@ const onUploadingFile: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
     const parsed = await read(raw);
     const sheet = parsed.Sheets[parsed.SheetNames[0]]
     const json = await utils.sheet_to_json(sheet)
-    console.log(json)
-
-
+     headers.value = Object.entries(json[0]!).map(([k, v]) => k)
+     console.log(headers.value)
+    emits("headers", headers.value)
   })
 }
 

@@ -23,12 +23,6 @@ const onChangeLanguage = (newLang:string) => {
   loc.value = newLang
   dir.value = loc.value === "ar" ? "rtl" : "ltr"
 }
-// const onSendingMessage = (newMsg:string) => {
-//   msg.value = newMsg
-// }
-// const onChangeMode = (newMode:string) => {
-//   mode.value = newMode
-// }
 </script>
 <template>
       <!-- <el-config-provider :message="msg" :locale="loc" > -->
@@ -37,9 +31,9 @@ const onChangeLanguage = (newLang:string) => {
     <el-tab-pane :label="tt('tabs.one')">
     <view-invoice />
     </el-tab-pane>
-    <el-tab-pane :label="tt('tabs.two')" disabled>Confirm</el-tab-pane>
-    <el-tab-pane :label="tt('tabs.three')">Role</el-tab-pane>
-    <el-tab-pane :label="tt('tabs.four')">Task</el-tab-pane>
+    <el-tab-pane :label="tt('tabs.two')" disabled></el-tab-pane>
+    <el-tab-pane :label="tt('tabs.three')"></el-tab-pane>
+    <el-tab-pane :label="tt('tabs.four')"></el-tab-pane>
   </el-tabs>
 <!-- </el-config-provider> -->
 </template>
