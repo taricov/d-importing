@@ -1,47 +1,18 @@
 
 <script lang="ts" setup>
 import { ref, watch } from "vue"
-import type { TableColumnCtx } from 'element-plus'
 const props = defineProps(["data"])
-interface User {
-  id: string
-  name: string
-  amount1: string
-  amount2: string
-  amount3: number
-}
 
-interface SpanMethodProps {
-  row: User
-  column: TableColumnCtx<User>
-    rowIndex: number
-    columnIndex: number
-  }
-  
   const headers = ref<string[]>([])
-  // const data = ref<[]>()
-const arraySpanMethod = ({
-  row,
-  column,
-  rowIndex,
-  columnIndex,
-}: SpanMethodProps) => {
-  if (rowIndex % 2 === 0) {
-    if (columnIndex === 0) {
-      return [1, 2]
-    } else if (columnIndex === 1) {
-      return [0, 0]
-    }
-  }
-}
 
 const objectSpanMethod = ({
   row,
   column,
   rowIndex,
   columnIndex,
-}: SpanMethodProps) => {
+}) => {
   if (columnIndex === 0) {
+    // row[key]
     if (rowIndex % 2 === 0) {
       return {
         rowspan: 2,
@@ -57,7 +28,6 @@ const objectSpanMethod = ({
 } 
 
 watch(() => props.data, (data, oldData) => { 
-  console.log(data)
   headers.value = Object.keys(data[0])
 })
 

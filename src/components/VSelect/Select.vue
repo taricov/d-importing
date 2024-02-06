@@ -14,7 +14,8 @@ function updateValue(e, idx){
 }
 </script>
 <template>
- {{ idx+1 }}: 
+  <div v-if="false"> {{ idx+1 }}: </div>
+
   <el-select
     v-model:modelValue="value"
     @change="updateValue($event, idx)"

@@ -13,6 +13,7 @@ import { ref } from "vue";
 import { useI18n } from "vue-i18n";
 const invoiceStats = ref({});
 const stepActive = ref(0);
+const primaryCol = ref<Number>();
 defineProps(["headers", "tableRows"]);
 
 const extractedHeaders = ref<String[]>([]);
@@ -20,7 +21,7 @@ const data = ref<any[]>([]);
 const mappedCols = ref<String[]>([]);
 const extractData = (val) =>{ 
   data.value = val;
-  console.log(data.value)
+  // console.log(data.value)
 
 }
 
@@ -109,19 +110,25 @@ const notifySuccess = (type:string='Success',msg:string) => {
             <v-upload @headers="extractHeaders" @tableRows="extractData" v-show="stepActive == 0" />
           </transition>
           <transition name="el-fade-in">
-          <div>
-            <el-row :gutter="10" v-show="stepActive == 1" v-for="(col, i) in extractedHeaders" :key="col">
-              <el-col :span="12" style="text-align:center"> {{  col }} </el-col>
-              <el-col :span="12" style="text-align:center">
+          <div v-show="stepActive == 1" style="margin-inline:auto;width:60%">
+            <el-row :gutter="10" style="margin-bottom:10px;justify-content: space-between;" >
+              <el-col :span="6" style="text-align:flex-start">
+              Select Primary Column (Only one allowed)
+               </el-col>
+              <el-col :span="6" style="text-align:flex-end">
+                Select Mapped Column
+              </el-col>
+            </el-row>
+            <el-row v-for="(col, i) in extractedHeaders" :key="col" :gutter="10" style="margin-bottom:2px;justify-content: space-between;">
+              <el-col :span="6" style="text-align:flex-start">
+                <el-radio-group v-model="primaryCol">
+      <el-radio :label="i" border> {{ col }}</el-radio>
+      </el-radio-group>
+               </el-col>
+              <el-col :span="6" style="text-align:flex-end">
                 <v-select @modelValue="updateMapping" :idx="i" />
               </el-col>
             </el-row>
-            <!-- <el-table v-show="stepActive == 1"  :data="extractedHeaders" border style="width: 100%">
-              <el-table-column label="Original"  />
-              <el-table-column label="Mapped" >
-              </el-table-column>
-            <v-select />
-            </el-table> -->
           </div>
           </transition>
           <transition name="el-fade-in">
