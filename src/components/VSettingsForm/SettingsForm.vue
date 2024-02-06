@@ -29,7 +29,7 @@ const downloadTemplate = () => {
     <el-row :gutter="20">
       <el-col :span="12">
         <el-form-item label="Multiple Items">
-          <el-switch v-model="formVals.mulipleItems" />
+          <el-switch v-model="formVals.mulipleItems" /> 
         </el-form-item>
       </el-col>
       <el-col :span="12">
@@ -87,6 +87,8 @@ const downloadTemplate = () => {
     margin-inline: 3px;
 }
 .el-form-item__label {
+    line-height: 13px !important; 
+    align-items: center;
     width: 30%;
     justify-content: start !important;
 }

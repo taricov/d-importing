@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import _ from "lodash";
+import { ElNotification } from 'element-plus'
+const alertConfirm = ref<Boolean>(true)
 // import { tt } from "../../utils/untils"
 import VUpload from "../../components/VUpload/Upload.vue";
 import VSelect from "../../components/VSelect/Select.vue";
@@ -64,16 +66,30 @@ console.log(mappedCols.value)
 
 }
 
+const receiveInvoiceSettings = val => invoiceSettings.value = val
+
 const tt = (translation) => {
   return _.capitalize(t(translation));
 };
+
+
+//Notifications:
+
+const notifySuccess = (type:string='Success',msg:string) => {
+  ElNotification({
+    title: _.capitalize(type),
+    message: msg,
+    type,
+    position: 'bottom-left',
+  })
+}
 </script>
 
 <template>
   <div class="collapse">
     <el-collapse v-model="activeName">
       <el-collapse-item name="settings" :title="tt('invoices.accordion.one')">
-        <v-settings-form />
+        <v-settings-form @formData="receiveInvoiceSettings"/>
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.two')" name="upload">
         <div>
@@ -137,7 +153,34 @@ const tt = (translation) => {
       <v-table  :data="data" :headers="headers"/>
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.four')" name="import">
+        <el-button style="margin: 20px auto 0;width: 50%" @click="" type="success">Import</el-button>
+         
       </el-collapse-item>
     </el-collapse>
   </div>
+
+<!-- Alert Confirm -->
+  <el-dialog
+    v-model="alertConfirm"
+    title="Confirm"
+    width="500"
+    align-center
+  >
+    <span>This is the last checking before sending the invoices to Daftra ERP .. All set?</span>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="alertConfirm = false">Cancel</el-button>
+        <el-button type="primary" @click="alertConfirm = false">
+          Send Invoices
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
+<style>
+/* .el-collapse-item[name='import'] > div > .el-collapse-item__content{
+  
+  display:flex;
+  justify-content:center;
+} */
+</style>
