@@ -1,7 +1,8 @@
 
 <script lang="ts" setup>
+import { ref, watch } from "vue"
 import type { TableColumnCtx } from 'element-plus'
-defineProps(["data", "headers"])
+const props = defineProps(["data"])
 interface User {
   id: string
   name: string
@@ -13,10 +14,12 @@ interface User {
 interface SpanMethodProps {
   row: User
   column: TableColumnCtx<User>
-  rowIndex: number
-  columnIndex: number
-}
-
+    rowIndex: number
+    columnIndex: number
+  }
+  
+  const headers = ref<string[]>([])
+  // const data = ref<[]>()
 const arraySpanMethod = ({
   row,
   column,
@@ -51,72 +54,28 @@ const objectSpanMethod = ({
       }
     }
   }
-}
+} 
 
-const tableData: User[] = [
-  {
-    id: '12987122',
-    name: 'Tom',
-    amount1: '234',
-    amount2: '3.2',
-    amount3: 10,
-  },
-  {
-    id: '12987123',
-    name: 'Tom',
-    amount1: '165',
-    amount2: '4.43',
-    amount3: 12,
-  },
-  {
-    id: '12987124',
-    name: 'Tom',
-    amount1: '324',
-    amount2: '1.9',
-    amount3: 9,
-  },
-  {
-    id: '12987125',
-    name: 'Tom',
-    amount1: '621',
-    amount2: '2.2',
-    amount3: 17,
-  },
-  {
-    id: '12987126',
-    name: 'Tom',
-    amount1: '539',
-    amount2: '4.1',
-    amount3: 15,
-  },
-]
+watch(() => props.data, (data, oldData) => { 
+  console.log(data)
+  headers.value = Object.keys(data[0])
+})
+
 </script>
 <template>
   <div>
-    <!-- <el-table
-      :data="tableData"
-      :span-method="arraySpanMethod"
-      border
-      style="width: 100%"
-    >
-      <el-table-column prop="id" label="ID" width="180" />
-      <el-table-column prop="name" label="Name" />
-      <el-table-column prop="amount1" sortable label="Amount 1" />
-      <el-table-column prop="amount2" sortable label="Amount 2" />
-      <el-table-column prop="amount3" sortable label="Amount 3" />
-    </el-table> -->
-
-    <el-table
-      :data="data"
-      :span-method="objectSpanMethod"
-      border
+  <div style="display:flex;justify-content:flex-end">
+  <sub>({{ data.length }} rows)</sub>
+  </div>
+    <el-table height="500" :data="data" 
+    :span-method="objectSpanMethod"
       style="width: 100%; margin-top: 20px"
+      border
     >
-      <el-table-column v-for="(idx, header) in headers" :key="idx" :label="header" :prop="header" width="180" /> 
-       <!-- <el-table-column label="رقم العميل" prop="رقم العميل" /> -->
-      <!--<el-table-column label="Amount 1" />
-      <el-table-column label="Amount 2" />
-      <el-table-column label="Amount 3" /> -->
-    </el-table>
+    <template v-for="h in headers" :key="h">
+      <el-table-column :prop="h" :label="h" width="180" />
+    </template>
+
+  </el-table>
   </div>
 </template>

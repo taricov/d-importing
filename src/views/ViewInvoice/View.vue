@@ -150,7 +150,7 @@ const notifySuccess = (type:string='Success',msg:string) => {
         </div>
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.three')" name="preview">
-      <v-table  :data="data" :headers="headers"/>
+      <v-table  :data="data"/>
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.four')" name="import">
         <el-button style="margin: 20px auto 0;width: 50%" @click="" type="success">Import</el-button>
