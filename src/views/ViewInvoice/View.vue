@@ -129,8 +129,7 @@ const tt = (translation) => {
             >
 
             <el-button :disabled="stepActive < 2" style="margin-top: 12px" @click="ready"
-              >{{ tt("invoices.steps.fini") }} <el-icon><Arrow /></el-icon
-            ></el-button>
+              ><span style="margin-inline: 2px">{{ tt("invoices.steps.fini") }}</span> <el-icon size="12"><ArrowRightBold  /></el-icon></el-button>
           </div>
         </div>
       </el-collapse-item>

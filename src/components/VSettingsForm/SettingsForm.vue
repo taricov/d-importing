@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { reactive } from "vue";
-
+import { reactive, ref } from "vue";
+const emits = defineEmits(["formData"])
+const downloadedTemplate = ref<Boolean>(false)
 // do not use same name with ref
-const form = reactive({
+const formVals = reactive({
   discountTotal: false,
   discountItem: false,
   mulipleItems: false,
@@ -13,21 +14,27 @@ const form = reactive({
 });
 
 const onSubmit = () => {
-  console.log("submit!");
+    emits("formData", formVals)
+};
+const downloadTemplate = () => {
+    console.log("dwonloading...")
+    setTimeout(()=>{
+        downloadedTemplate.value = true
+    },1500)
 };
 </script>
 
 <template>
-  <el-form :model="form">
+  <el-form :model="formVals">
     <el-row :gutter="20">
       <el-col :span="12">
         <el-form-item label="Multiple Items">
-          <el-switch v-model="form.mulipleItems" />
+          <el-switch v-model="formVals.mulipleItems" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Total Discount">
-          <el-switch v-model="form.discountTotal" />
+          <el-switch v-model="formVals.discountTotal" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -35,12 +42,12 @@ const onSubmit = () => {
     <el-row :gutter="20">
       <el-col :span="12">
         <el-form-item label="Item Discount">
-          <el-switch v-model="form.discountItem" />
+          <el-switch v-model="formVals.discountItem" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Include Payments">
-          <el-switch v-model="form.allowPaid" />
+          <el-switch v-model="formVals.allowPaid" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -48,30 +55,37 @@ const onSubmit = () => {
     <el-row :gutter="20">
       <el-col :span="12">
         <el-form-item label="Custom Fields">
-          <el-switch disabled v-model="form.customFields" />
+          <el-switch disabled v-model="formVals.customFields" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
         <el-form-item label="Tax Mode">
-          <el-switch v-model="form.taxMode" />
-          <div class="sub">({{ form.taxMode ? "Inclusive" : "Exclusive" }})</div>
+          <el-switch v-model="formVals.taxMode" />
+          <div class="sub">({{ formVals.taxMode ? "Inclusive" : "Exclusive" }})</div>
         </el-form-item>
       </el-col>
     </el-row>
     <!-- <el-row>
       <el-col :span="24">
         <el-form-item label="Strictly Checking">
-          <el-checkbox v-model="form.strictCheck" />
+          <el-checkbox v-model="formVals.strictCheck" />
         </el-form-item>
       </el-col>
     </el-row> -->
     <el-form-item label="Strictly Checking">
-          <el-checkbox v-model="form.strictCheck"/>
+          <el-checkbox v-model="formVals.strictCheck"/>
+        </el-form-item>
+        <el-form-item>
+        <el-button :loading="downloadedTemplate" type="primary" @click="downloadTemplate"><el-icon class="form-icon" v-if="!downloadedTemplate"><Download /></el-icon><span class="form-icon-label">Download Template</span></el-button>
+        <el-button :disabled="!downloadedTemplate" type="success" @click="onSubmit"><el-icon class="form-icon"><Check size="18"/></el-icon> <span class="form-icon-label">Next Step</span></el-button>
         </el-form-item>
   </el-form>
 </template>
 
 <style>
+.form-icon-label{
+    margin-inline: 3px;
+}
 .el-form-item__label {
     width: 30%;
     justify-content: start !important;
