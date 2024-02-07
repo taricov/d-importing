@@ -23,6 +23,9 @@ dependencies:
   vue-i18n:
     specifier: '9'
     version: 9.9.1(vue@3.3.11)
+  vue-router:
+    specifier: '4'
+    version: 4.2.5(vue@3.3.11)
   xlsx:
     specifier: https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz
     version: '@cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz'
@@ -941,6 +944,15 @@ packages:
     dependencies:
       '@intlify/core-base': 9.9.1
       '@intlify/shared': 9.9.1
+      '@vue/devtools-api': 6.5.1
+      vue: 3.3.11(typescript@5.2.2)
+    dev: false
+
+  /vue-router@4.2.5(vue@3.3.11):
+    resolution: {integrity: sha512-DIUpKcyg4+PTQKfFPX88UWhlagBEBEfJ5A8XDXRJLUnZOvcpMF8o/dnL90vpVkGaPbjvXazV/rC1qBKrZlFugw==}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
       '@vue/devtools-api': 6.5.1
       vue: 3.3.11(typescript@5.2.2)
     dev: false

@@ -9,9 +9,24 @@ import en from "./services/locales/en.json"
 import ar from "./services/locales/ar.json"
 //@ts-ignore
 import i18n from '../i18b';
+import { createRouter, createWebHashHistory } from 'vue-router'
+//pages
+import PageHome from "./pages/PageHome/Page.vue"
+import PageAbout from "./pages/PageAbout/Page.vue"
+import PageAppearance from "./pages/PageAppearance/Page.vue"
+import PageHowUse from "./pages/PageHowUse/Page.vue"
 
+const routes = [
+  { path: '/', component: PageHome },
+  { path: '/about', component: PageAbout },
+  { path: '/appearance', component: PageAppearance },
+  { path: '/how-to-use', component: PageHowUse },
+]
 
-
+const router = createRouter({
+    history: createWebHashHistory(),
+    routes,
+  })
   
 const i18n = createI18n({
     legacy: false, 
@@ -30,4 +45,5 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
 app.use(i18n)
+app.use(router)
 app.mount('#app')
