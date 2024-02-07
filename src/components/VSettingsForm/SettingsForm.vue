@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
-const emits = defineEmits(["formData"])
+const emits = defineEmits(["formData", "nextPhase"])
 const downloadedTemplate = ref<Boolean>(false)
+const downloading = ref<Boolean>(false)
 // do not use same name with ref
 const formVals = reactive({
   discountTotal: false,
@@ -15,12 +16,15 @@ const formVals = reactive({
 
 const onSubmit = () => {
     emits("formData", formVals)
+    emits("nextPhase", downloadTemplate)
 };
 const downloadTemplate = () => {
     console.log("dwonloading...")
+    downloading.value = true
+    downloadedTemplate.value = true
     setTimeout(()=>{
-        downloadedTemplate.value = true
-    },1500)
+        downloading.value = false
+      },1500)
 };
 </script>
 
@@ -76,7 +80,7 @@ const downloadTemplate = () => {
           <el-checkbox v-model="formVals.strictCheck"/>
         </el-form-item>
         <el-form-item>
-        <el-button :loading="downloadedTemplate" type="primary" @click="downloadTemplate"><el-icon class="form-icon" v-if="!downloadedTemplate"><Download /></el-icon><span class="form-icon-label">Download Template</span></el-button>
+        <el-button :loading="downloading" :disabled="downloadedTemplate" type="primary" @click="downloadTemplate"><el-icon class="form-icon" v-if="!downloading"><Download /></el-icon><span class="form-icon-label">Download Template</span></el-button>
         <el-button :disabled="!downloadedTemplate" type="success" @click="onSubmit"><el-icon class="form-icon"><Check size="18"/></el-icon> <span class="form-icon-label">Next Step</span></el-button>
         </el-form-item>
   </el-form>
@@ -99,17 +103,6 @@ const downloadTemplate = () => {
 .el-form-item {
   margin-bottom: 0 !important;
 }
-/* .el-row:last-child {
-  margin-bottom: 0;
-}
-.el-col {
-  border-radius: 4px;
-} */
-
-/* .grid-content {
-  border-radius: 4px;
-  min-height: 36px;
-} */
 .sub {
   font-size: 9px;
   margin: 0 3px -10px;

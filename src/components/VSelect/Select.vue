@@ -12,7 +12,7 @@ function updateValue(e: string){
 }
 
 watch(selected, () => {
-  console.log(options.value)
+  // console.log(options.value)
 }, {deep: true})
 </script>
 <template>

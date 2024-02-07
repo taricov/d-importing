@@ -63,6 +63,14 @@ const ready = () => {
   stepActive.value = 3;
   activeName.value = ["preview"];
 };
+const goToImport = () => {
+  activeName.value = ["import"];
+};
+const goToUpload = (clicked: boolean) => {
+  console.log("clicked,", clicked)
+  if(clicked) activeName.value = ["upload"];
+};
+
 // import { Check, Close } from "@element-plus/icons-vue";
 
 const { t } = useI18n();
@@ -101,7 +109,7 @@ const tt = (translation: string) => {
   <div class="collapse">
     <el-collapse v-model="activeName">
       <el-collapse-item name="settings" :title="tt('invoices.accordion.one')">
-        <v-settings-form @formData="receiveInvoiceSettings"/>
+        <v-settings-form @next-phase="goToUpload" @form-data="receiveInvoiceSettings"/>
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.two')" name="upload">
         <div>
@@ -121,7 +129,7 @@ const tt = (translation: string) => {
             <v-upload @headers="extractHeaders" @tableRows="extractData" v-show="stepActive == 0" />
           </transition>
           <transition name="el-fade-in">
-          <div v-show="stepActive == 1" style="margin-inline:auto;width:60%">
+          <div v-show="stepActive == 1" style="ma rgin-inline:auto;width:60%">
         <v-column-mapping @formData="receiveColumnMapping" :headers="extractedHeaders"/>
 
             <!-- <el-row :gutter="10" style="margin-bottom:10px;justify-content: space-between;" >
@@ -170,6 +178,9 @@ const tt = (translation: string) => {
         </div>
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.three')" name="preview">
+        <el-button type="success" @click="goToImport"
+      ><el-icon class="form-icon"><Check size="18" /></el-icon>
+      <span class="form-icon-label">All is Good</span></el-button>
       <v-table  :data="data"/>
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.four')" name="import">
