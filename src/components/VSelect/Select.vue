@@ -1,30 +1,33 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch, reactive } from 'vue'
 // @ts-ignore
 import _ from 'lodash'
-import fields from "../../data/fields"
 const value = ref<String>("")
-const emit = defineEmits(['modelValue'])
-const options = ref(fields)
-defineProps(["idx"])
-function updateValue(e, idx){
-  emit('modelValue', [e, idx])
-  options.value.splice(idx, 1)
-  console.log(options.value)
+const emits = defineEmits(['selectedMapping'])
+const props = defineProps(['fields', 'selected'])
+const options = ref(props.fields)
+const selected= reactive(props.selected)
+function updateValue(e: string){
+  emits('selectedMapping', e)
 }
+
+watch(selected, () => {
+  console.log(options.value)
+}, {deep: true})
 </script>
 <template>
-  <div v-if="false"> {{ idx+1 }}: </div>
+  <!-- <div v-if="false"> {{ idx+1 }}: </div> -->
 
   <el-select
-    v-model:modelValue="value"
-    @change="updateValue($event, idx)"
+    v-model="value"
+    @change="updateValue"
     clearable
     placeholder="Select"
     style="width: 240px"
   >
     <el-option
       v-for="item in options"
+    :disabled="selected.includes(item.key)"
       :key="item.key"
       :label="_.capitalize(item.key).split('_').join(' ')"
       :value="item.key"

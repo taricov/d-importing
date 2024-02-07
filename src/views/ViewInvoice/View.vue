@@ -1,39 +1,48 @@
 <script lang="ts" setup>
 import _ from "lodash";
-import { ElNotification } from 'element-plus'
-const alertConfirm = ref<Boolean>(true)
-// import { tt } from "../../utils/untils"
+// import { ElNotification } from 'element-plus'
+import { ref } from "vue";
+// const alertConfirm = ref<Boolean>(true)
 import VUpload from "../../components/VUpload/Upload.vue";
-import VSelect from "../../components/VSelect/Select.vue";
+// import VSelect from "../../components/VSelect/Select.vue";
 import VSummary from "../../components/VSummary/Summary.vue";
 import VTable from "../../components/VTable/Table.vue";
 import VSettingsForm from "../../components/VSettingsForm/SettingsForm.vue";
+import VColumnMapping from "../../components/VColumnMapping/ColumnMapping.vue";
 import { TinvoiceSettings } from "../../@types/types.ts";
-import { ref } from "vue";
+import { APIrequest } from "../../api/index.ts"
+import { credentials } from "../../api/common";
 import { useI18n } from "vue-i18n";
 const invoiceStats = ref({});
 const stepActive = ref(0);
-const primaryCol = ref<Number>();
 defineProps(["headers", "tableRows"]);
-
 const extractedHeaders = ref<String[]>([]);
 const data = ref<any[]>([]);
-const mappedCols = ref<String[]>([]);
-const extractData = (val) =>{ 
+// const mappedCols = ref<String[]>([]);
+const extractData = (val: any[]) =>{ 
   data.value = val;
   // console.log(data.value)
 
 }
 
-const generateInvoiceStats = () =>{
-  const count = data.value.length || 0
-  const beforeTax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0 
-  const tax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0
-  const afterTax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0
-  invoiceStats.value = {beforeTax, tax, afterTax, count}
+const onImport = async () =>{
+  console.log(data.value)
+  const res = await APIrequest(
+  { ...credentials }, 'POST', 'v1', '/invoices', data.value)
+  // const res = await APIrequest(,method= "POST", d= data.value)
+  console.log(res)
+
 }
 
-const extractHeaders = (val) => {
+// const generateInvoiceStats = () =>{
+//   const count = data.value.length || 0
+//   const beforeTax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0 
+//   const tax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0
+//   const afterTax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0
+//   invoiceStats.value = {beforeTax, tax, afterTax, count}
+// }
+
+const extractHeaders = (val: any) => {
   extractedHeaders.value = val;
   if (extractedHeaders.value.length > 0) {
     stepActive.value = 1;
@@ -54,36 +63,38 @@ const ready = () => {
   stepActive.value = 3;
   activeName.value = ["preview"];
 };
-import { Check, Close } from "@element-plus/icons-vue";
+// import { Check, Close } from "@element-plus/icons-vue";
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const activeName = ref<String[]>(["settings", "upload", "import"]);
 const invoiceSettings = ref<TinvoiceSettings>({});
-const updateMapping = (val) => {
+const columnMapping = ref<TinvoiceSettings>({});
+// const updateMapping = (val) => {
 
-mappedCols.value[val[0]] =  extractedHeaders.value[val[1]]
-console.log(mappedCols.value)
+// mappedCols.value[val[0]] =  extractedHeaders.value[val[1]]
+// console.log(mappedCols.value)
 
-}
+// }
 
-const receiveInvoiceSettings = val => invoiceSettings.value = val
+const receiveInvoiceSettings = (val:{[key:string]: string})  => invoiceSettings.value = val
+const receiveColumnMapping = (val:any[]) => columnMapping.value = val
 
-const tt = (translation) => {
+const tt = (translation: string) => {
   return _.capitalize(t(translation));
 };
 
 
 //Notifications:
 
-const notifySuccess = (type:string='Success',msg:string) => {
-  ElNotification({
-    title: _.capitalize(type),
-    message: msg,
-    type,
-    position: 'bottom-left',
-  })
-}
+// const notifySuccess = (type:string='Success',msg:string) => {
+//   ElNotification({
+//     title: _.capitalize(type),
+//     message: msg,
+//     type,
+//     position: 'bottom-left',
+//   })
+// }
 </script>
 
 <template>
@@ -111,7 +122,9 @@ const notifySuccess = (type:string='Success',msg:string) => {
           </transition>
           <transition name="el-fade-in">
           <div v-show="stepActive == 1" style="margin-inline:auto;width:60%">
-            <el-row :gutter="10" style="margin-bottom:10px;justify-content: space-between;" >
+        <v-column-mapping @formData="receiveColumnMapping" :headers="extractedHeaders"/>
+
+            <!-- <el-row :gutter="10" style="margin-bottom:10px;justify-content: space-between;" >
               <el-col :span="6" style="text-align:flex-start">
               Select Primary Column (Only one allowed)
                </el-col>
@@ -128,7 +141,7 @@ const notifySuccess = (type:string='Success',msg:string) => {
               <el-col :span="6" style="text-align:flex-end">
                 <v-select @modelValue="updateMapping" :idx="i" />
               </el-col>
-            </el-row>
+            </el-row> -->
           </div>
           </transition>
           <transition name="el-fade-in">
@@ -160,14 +173,14 @@ const notifySuccess = (type:string='Success',msg:string) => {
       <v-table  :data="data"/>
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.four')" name="import">
-        <el-button style="margin: 20px auto 0;width: 50%" @click="" type="success">Import</el-button>
+        <el-button style="margin: 20px auto 0;width: 50%" @click="onImport" type="success">Import</el-button>
          
       </el-collapse-item>
     </el-collapse>
   </div>
 
 <!-- Alert Confirm -->
-  <el-dialog
+  <!-- <el-dialog
     v-model="alertConfirm"
     title="Confirm"
     width="500"
@@ -182,7 +195,7 @@ const notifySuccess = (type:string='Success',msg:string) => {
         </el-button>
       </div>
     </template>
-  </el-dialog>
+  </el-dialog> -->
 </template>
 <style>
 /* .el-collapse-item[name='import'] > div > .el-collapse-item__content{
