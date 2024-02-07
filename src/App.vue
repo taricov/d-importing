@@ -40,6 +40,7 @@ const onChangeLanguage = (newLang:string) => {
 
 
 <style>
+
 .rtl, .rtl *{
   direction: rtl;
   text-align: right;
