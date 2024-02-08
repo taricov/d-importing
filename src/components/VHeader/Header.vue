@@ -1,62 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
-// @ts-ignore
-import _ from "lodash";
-const emit = defineEmits(["currentMode", "currentLanguage"]);
-import { useI18n } from "vue-i18n";
-
-const { locale } = useI18n();
-
-// DarkMode:
-const isDark = ref<Boolean>(false);
-const currentMode = ref<String>("light");
-const toggleDark = () => {
-  isDark.value = !isDark.value;
-  if (isDark.value) {
-    document.documentElement.classList.add("dark");
-  } else {
-    document.documentElement.classList.remove("dark");
-  }
-  currentMode.value = isDark.value ? "dark" : "light";
-  // emit("currentMode", currentMode.value);
-};
-
-//Language:
-const isEnglish = ref<Boolean>(true);
-// const locale = ref<String>("en");
-const language = ref<String>("en");
-const toggleLang = () => {
-  isEnglish.value = !isEnglish.value;
-  language.value = isEnglish.value ? "en" : "عربي";
-  locale.value = isEnglish.value ? "en" : "ar";
-  emit("currentLanguage", locale.value);
-
-  document.querySelector("body")!.classList.toggle("rtl");
-  if (!isEnglish.value) {
-    document.querySelector("body")!.setAttribute("dir", "rtl");
-  } else {
-    document.querySelector("body")!.removeAttribute("dir");
-  }
-};
-
-
-
 // Nav Bar
-document.querySelector("#search-icon")?.addEventListener("click", function() {
-  if(document.querySelector(".nav")?.classList.contains("search")){
-
-    document.querySelector(".nav")?.classList.add("search");
-    document.querySelector(".nav")?.classList.add("search");
-    document.querySelector(".nav")?.classList.add("no-search");
-    document.querySelector(".search-input")?.classList.add("search-active");
-  }else{
-    document.querySelector(".nav")?.classList.remove("search");
-    document.querySelector(".nav")?.classList.remove("search");
-    document.querySelector(".nav")?.classList.remove("no-search");
-    document.querySelector(".search-input")?.classList.remove("search-active");
-
-  }
-});
 
 document.querySelector('.menu-toggle')?.addEventListener("click", function(){
   const that: any = this;
@@ -84,48 +27,24 @@ document.querySelector('.menu-toggle')?.addEventListener("click", function(){
     </div>
     <ul class="nav no-search">
       <li class="nav-item import-page">
-      <!-- <a href="#">Import Now</a> -->
       <router-link to="/">Import Now</router-link>
       </li>
       <li class="nav-item">
-      <!-- <a href="#">How To Use</a> -->
       <router-link to="/how-to-use">How To Use</router-link>
       
       </li>
       <li class="nav-item">
-      <!-- <a href="#">Appearance</a> -->
       <router-link to="/appearance">Appearance</router-link>
       
       </li>
       <li class="nav-item">
-      <!-- <a href="#">About This</a> -->
       <router-link to="/about">About</router-link>
       
       </li>
-      <!-- <i class="fas fa-search" id="search-icon"></i>
-      <input class="search-input" type="text" placeholder="Search.."> -->
     </ul>
   </nav>
   </div>
 </div>
-  <!-- <div>
-    <el-link href="https://element-plus.org" target="_blank">default</el-link>
-    <el-link type="primary">primary</el-link>
-    <el-link type="success">success</el-link>
-    <el-link type="warning">warning</el-link>
-    <el-link type="danger">danger</el-link>
-    <el-link type="info">info</el-link>
-  </div> -->
-  <!-- Lang. switcher -->
-  <el-button mb-2 @click="toggleLang">{{ _.capitalize(language) }}</el-button>
-  <!-- Dark switcher -->
-  <el-button mb-2 @click="toggleDark">
-    {{ _.capitalize(currentMode) }}
-    &nbsp;<el-icon><Sunny v-if="!isDark" /> <Moon v-if="isDark" /></el-icon>
-  </el-button>
-
-  <v-dark-mode />
-  <v-language-button />
 </template>
 
 <style scoped>
@@ -458,4 +377,6 @@ h2 {
 .el-link .el-icon--right.el-icon {
   vertical-align: text-bottom;
 }
+
+
 </style>

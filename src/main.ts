@@ -9,7 +9,7 @@ import en from "./services/locales/en.json"
 import ar from "./services/locales/ar.json"
 //@ts-ignore
 import i18n from '../i18b';
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 //pages
 import PageHome from "./pages/PageHome/Page.vue"
 import PageAbout from "./pages/PageAbout/Page.vue"
@@ -19,12 +19,12 @@ import PageHowUse from "./pages/PageHowUse/Page.vue"
 const routes = [
   { path: '/', component: PageHome },
   { path: '/about', component: PageAbout },
-  { path: '/appearance', component: PageAppearance },
   { path: '/how-to-use', component: PageHowUse },
+  { path: '/appearance', component: PageAppearance },
 ]
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes,
   })
   
