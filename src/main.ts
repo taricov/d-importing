@@ -12,12 +12,14 @@ import i18n from '../i18b';
 import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
 //pages
 import PageHome from "./pages/PageHome/Page.vue"
+import PageImport from "./pages/PageImport/Page.vue"
 import PageAbout from "./pages/PageAbout/Page.vue"
 import PageAppearance from "./pages/PageAppearance/Page.vue"
 import PageHowUse from "./pages/PageHowUse/Page.vue"
 
 const routes = [
   { path: '/', component: PageHome },
+  { path: '/import', component: PageImport },
   { path: '/about', component: PageAbout },
   { path: '/how-to-use', component: PageHowUse },
   { path: '/appearance', component: PageAppearance },
