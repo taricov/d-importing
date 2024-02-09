@@ -10,7 +10,7 @@ import VTable from "../../components/VTable/Table.vue";
 import VSettingsForm from "../../components/VSettingsForm/SettingsForm.vue";
 import VColumnMapping from "../../components/VColumnMapping/ColumnMapping.vue";
 import { TinvoiceSettings } from "../../@types/types.ts";
-import { APIrequest } from "../../api/index.ts"
+import { APIrequest } from "../../api/index.ts";
 import { credentials } from "../../api/common";
 import { useI18n } from "vue-i18n";
 const invoiceStats = ref({});
@@ -19,24 +19,21 @@ defineProps(["headers", "tableRows"]);
 const extractedHeaders = ref<String[]>([]);
 const data = ref<any[]>([]);
 // const mappedCols = ref<String[]>([]);
-const extractData = (val: any[]) =>{ 
+const extractData = (val: any[]) => {
   data.value = val;
   // console.log(data.value)
+};
 
-}
-
-const onImport = async () =>{
-  console.log(data.value)
-  const res = await APIrequest(
-  { ...credentials }, 'POST', 'v1', '/invoices', data.value)
+const onImport = async () => {
+  console.log(data.value);
+  const res = await APIrequest({ ...credentials }, "POST", "v1", "/invoices", data.value);
   // const res = await APIrequest(,method= "POST", d= data.value)
-  console.log(res)
-
-}
+  console.log(res);
+};
 
 // const generateInvoiceStats = () =>{
 //   const count = data.value.length || 0
-//   const beforeTax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0 
+//   const beforeTax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0
 //   const tax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0
 //   const afterTax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0
 //   invoiceStats.value = {beforeTax, tax, afterTax, count}
@@ -67,8 +64,8 @@ const goToImport = () => {
   activeName.value = ["import"];
 };
 const goToUpload = (clicked: boolean) => {
-  console.log("clicked,", clicked)
-  if(clicked) activeName.value = ["upload"];
+  console.log("clicked,", clicked);
+  if (clicked) activeName.value = ["upload"];
 };
 
 // import { Check, Close } from "@element-plus/icons-vue";
@@ -85,13 +82,13 @@ const columnMapping = ref<TinvoiceSettings>({});
 
 // }
 
-const receiveInvoiceSettings = (val:{[key:string]: string})  => invoiceSettings.value = val
-const receiveColumnMapping = (val:any[]) => columnMapping.value = val
+const receiveInvoiceSettings = (val: { [key: string]: string }) =>
+  (invoiceSettings.value = val);
+const receiveColumnMapping = (val: any[]) => (columnMapping.value = val);
 
 const tt = (translation: string) => {
   return _.capitalize(t(translation));
 };
-
 
 //Notifications:
 
@@ -109,7 +106,7 @@ const tt = (translation: string) => {
   <div class="collapse">
     <el-collapse v-model="activeName">
       <el-collapse-item name="settings" :title="tt('invoices.accordion.one')">
-        <v-settings-form @next-phase="goToUpload" @form-data="receiveInvoiceSettings"/>
+        <v-settings-form @next-phase="goToUpload" @form-data="receiveInvoiceSettings" />
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.two')" name="upload">
         <div>
@@ -126,13 +123,20 @@ const tt = (translation: string) => {
           </el-steps>
           <!-- Step-based rendered componented -->
           <transition name="el-fade-in">
-            <v-upload @headers="extractHeaders" @tableRows="extractData" v-show="stepActive == 0" />
+            <v-upload
+              @headers="extractHeaders"
+              @tableRows="extractData"
+              v-show="stepActive == 0"
+            />
           </transition>
           <transition name="el-fade-in">
-          <div v-show="stepActive == 1" style="ma rgin-inline:auto;width:60%">
-        <v-column-mapping @formData="receiveColumnMapping" :headers="extractedHeaders"/>
+            <div v-show="stepActive == 1" style="ma rgin-inline:auto;width:60%">
+              <v-column-mapping
+                @formData="receiveColumnMapping"
+                :headers="extractedHeaders"
+              />
 
-            <!-- <el-row :gutter="10" style="margin-bottom:10px;justify-content: space-between;" >
+              <!-- <el-row :gutter="10" style="margin-bottom:10px;justify-content: space-between;" >
               <el-col :span="6" style="text-align:flex-start">
               Select Primary Column (Only one allowed)
                </el-col>
@@ -150,12 +154,11 @@ const tt = (translation: string) => {
                 <v-select @modelValue="updateMapping" :idx="i" />
               </el-col>
             </el-row> -->
-          </div>
+            </div>
           </transition>
           <transition name="el-fade-in">
             <v-summary v-show="stepActive == 2" :invoiceStats="invoiceStats" />
-</transition>
-
+          </transition>
 
           <div>
             <el-button
@@ -173,24 +176,31 @@ const tt = (translation: string) => {
             >
 
             <el-button :disabled="stepActive < 2" style="margin-top: 12px" @click="ready"
-              ><span style="margin-inline: 2px">{{ tt("invoices.steps.fini") }}</span> <el-icon size="12"><ArrowRightBold  /></el-icon></el-button>
+              ><span style="margin-inline: 2px">{{ tt("invoices.steps.fini") }}</span>
+              <el-icon size="12"><ArrowRightBold /></el-icon
+            ></el-button>
           </div>
         </div>
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.three')" name="preview">
         <el-button type="success" @click="goToImport"
-      ><el-icon class="form-icon"><Check size="18" /></el-icon>
-      <span class="form-icon-label">All is Good</span></el-button>
-      <v-table  :data="data"/>
+          ><el-icon class="form-icon"><Check size="18" /></el-icon>
+          <span class="form-icon-label">All is Good</span></el-button
+        >
+        <v-table :data="data" />
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.four')" name="import">
-        <el-button style="margin: 20px auto 0;width: 50%" @click="onImport" type="success">Import</el-button>
-         
+        <el-button
+          style="margin: 20px auto 0; width: 50%"
+          @click="onImport"
+          type="success"
+          >Import</el-button
+        >
       </el-collapse-item>
     </el-collapse>
   </div>
 
-<!-- Alert Confirm -->
+  <!-- Alert Confirm -->
   <!-- <el-dialog
     v-model="alertConfirm"
     title="Confirm"
@@ -214,4 +224,17 @@ const tt = (translation: string) => {
   display:flex;
   justify-content:center;
 } */
+.el-tabs__content {
+  padding: 0px !important;
+}
+.el-collapse-item__header {
+  background-color: #1685c8;
+  color: #fff;
+  border-radius: 3px;
+  padding: 0 15px;
+}
+.el-collapse-item__content {
+  padding: 15px;
+  background-color: #9ec3d930;
+}
 </style>

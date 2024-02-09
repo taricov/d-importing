@@ -80,8 +80,17 @@ const downloadTemplate = () => {
           <el-checkbox v-model="formVals.strictCheck"/>
         </el-form-item>
         <el-form-item>
-        <el-button :loading="downloading" :disabled="downloadedTemplate" type="primary" @click="downloadTemplate"><el-icon class="form-icon" v-if="!downloading"><Download /></el-icon><span class="form-icon-label">Download Template</span></el-button>
-        <el-button :disabled="!downloadedTemplate" type="success" @click="onSubmit"><el-icon class="form-icon"><Check size="18"/></el-icon> <span class="form-icon-label">Next Step</span></el-button>
+        <div>
+        <el-tooltip
+        content="Download Template"
+        placement="top-start"
+      >
+        <el-button :loading="downloading" type="primary" @click="downloadTemplate" href="../../../assets/template.xlsx" download><el-icon v-if="!downloading" class="form-icon"><Download /></el-icon></el-button>
+      </el-tooltip>
+
+        <el-button type="success" @click="onSubmit"><el-icon class="form-icon"><Check size="18"/></el-icon> <span class="form-icon-label">Next Step</span></el-button>
+        <el-button type="primary"><span class="form-icon-label" @click="onSubmit">Skip</span></el-button>
+        </div>
         </el-form-item>
   </el-form>
 </template>

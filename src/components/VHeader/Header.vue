@@ -38,7 +38,7 @@ document.querySelector('.menu-toggle')?.addEventListener("click", function(){
       
       </li>
       <li class="nav-item">
-      <router-link to="/appearance">Appearance</router-link>
+      <router-link to="/appearance" style="">Appearance</router-link>
       
       </li>
       <li class="nav-item">
