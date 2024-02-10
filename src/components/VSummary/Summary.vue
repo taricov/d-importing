@@ -1,19 +1,15 @@
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { useTransition } from '@vueuse/core'
-import { ChatLineRound, Male } from '@element-plus/icons-vue'
+// import { ref } from 'vue'
+// import { useTransition } from '@vueuse/core'
+// import { ChatLineRound, Male } from '@element-plus/icons-vue'
 defineProps(["invoiceStats"])
-// const source = ref(0)
-// const outputValue = useTransition(source, {
-//   duration: 1500,
-// })
-// source.value = 172000
+
 </script>
 
 <template>
   <el-row>
     <el-col :span="6">
-      <el-statistic :value="invoiceStats.paid">
+      <el-statistic :value="invoiceStats.paidCount">
         <template #title>
           <div style="display: inline-flex; align-items: center">
             Invoices Count

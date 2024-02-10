@@ -24,7 +24,8 @@ const onUploadingFile: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
     const raw = await f.raw?.arrayBuffer();
     const parsed = await read(raw);
     const sheet = parsed.Sheets[parsed.SheetNames[0]]
-    const json = await utils.sheet_to_json(sheet)
+    const json = await utils.sheet_to_json(sheet, {defval: ''});
+    console.log("json", json)
      headers.value = Object.entries(json[0]!).map(([k, v]) => k)
      data.value = json.slice(1, json.length)
     emits("headers", headers.value)

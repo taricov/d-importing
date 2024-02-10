@@ -25,13 +25,27 @@ defineProps(["headers", "tableRows"]);
 const extractedHeaders = ref<String[]>([]);
 const data = ref<any[]>([]);
 // const mappedCols = ref<String[]>([]);
+
+const Summarycalc = (idx:number) =>{
+  return data.value.reduce((acc, curr)=>acc+Object.values(curr)[idx],0)
+}
 const extractData = (val: any[]) => {
   data.value = val;
   if (data.value.length > 0) {
-    data.value.map((d) => {
-      const eachInv = Object.values(d)[0];
-      console.log(typeof eachInv);
-    });
+    console.log(data.value)
+    invoiceStats.value = {
+      count: data.value.length, 
+      paidCount: data.value.filter((d) =>Object.values(d)[6] !== null && Object.values(d)[6] !== 0).length,
+      beforeTax: Summarycalc(5)-(Summarycalc(5)*0.15),
+        afterTax: Summarycalc(5),
+        paid: Summarycalc(6),
+        tax: Summarycalc(5)*0.15,
+      },
+      console.log(invoiceStats.value);
+      // data.value.map((d) => {
+//       const eachInv = Object.values(d)[0];
+//       console.log(typeof eachInv);
+//     });
     stepActive.value = 1;
   }
 };
@@ -103,8 +117,8 @@ const GETallBranches = async(credentials: Tcredentials) => {
 }
 
 onBeforeMount(async() => {
-  const branches = await APIrequest({credentials, key:"/branches"})
-  console.log(branches)
+  // const branches = await APIrequest(creds=credentials, key="/branches")
+  // console.log(branches)
   // GETallClients(credentials);
   // GETallBranches(credentials);
   // GETallProducts(credentials);
