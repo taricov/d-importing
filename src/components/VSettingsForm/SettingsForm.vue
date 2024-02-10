@@ -1,5 +1,14 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
+import _ from "lodash";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+
+
+const tt = (translation: string) => {
+  return _.capitalize(t(translation));
+};
+
 const emits = defineEmits(["formData", "nextPhase"])
 const downloadedTemplate = ref<Boolean>(false)
 const downloading = ref<Boolean>(false)
@@ -32,12 +41,12 @@ const downloadTemplate = () => {
   <el-form :model="formVals">
     <el-row :gutter="20">
       <el-col :span="12">
-        <el-form-item label="Multiple Items">
+        <el-form-item :label="tt('invoices.settings.mult')">
           <el-switch v-model="formVals.mulipleItems" /> 
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="Total Discount">
+        <el-form-item :label="tt('invoices.settings.totDis')">
           <el-switch v-model="formVals.discountTotal" />
         </el-form-item>
       </el-col>
@@ -45,12 +54,12 @@ const downloadTemplate = () => {
 
     <el-row :gutter="20">
       <el-col :span="12">
-        <el-form-item label="Item Discount">
+        <el-form-item :label="tt('invoices.settings.itmDis')">
           <el-switch v-model="formVals.discountItem" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="Include Payments">
+        <el-form-item :label="tt('invoices.settings.pay')">
           <el-switch v-model="formVals.allowPaid" />
         </el-form-item>
       </el-col>
@@ -58,38 +67,38 @@ const downloadTemplate = () => {
 
     <el-row :gutter="20">
       <el-col :span="12">
-        <el-form-item label="Custom Fields">
+        <el-form-item :label="tt('invoices.settings.custom')">
           <el-switch disabled v-model="formVals.customFields" />
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="Tax Mode">
+        <el-form-item :label="tt('invoices.settings.tax')">
           <el-switch v-model="formVals.taxMode" />
-          <div class="sub">({{ formVals.taxMode ? "Inclusive" : "Exclusive" }})</div>
+          <div class="sub">({{ formVals.taxMode ? tt('invoices.settings.inc') : tt('invoices.settings.ex') }})</div>
         </el-form-item>
       </el-col>
     </el-row>
     <!-- <el-row>
       <el-col :span="24">
-        <el-form-item label="Strictly Checking">
+        <el-form-item :label="tt('invoices.settings.mult')Strictly Checking">
           <el-checkbox v-model="formVals.strictCheck" />
         </el-form-item>
       </el-col>
     </el-row> -->
-    <el-form-item label="Strictly Checking">
+    <el-form-item :label="tt('invoices.settings.strict')">
           <el-checkbox v-model="formVals.strictCheck"/>
         </el-form-item>
         <el-form-item>
         <div>
         <el-tooltip
-        content="Download Template"
+        :content="tt('invoices.settings.download')"
         placement="top-start"
       >
-        <el-button :loading="downloading" type="primary" @click="downloadTemplate" href="../../../assets/template.xlsx" download><el-icon v-if="!downloading" class="form-icon"><Download /></el-icon></el-button>
+        <el-button :loading="downloading" type="primary" @click="downloadTemplate" href="../../../public/assets/template.xlsx" download><el-icon v-if="!downloading" class="form-icon"><Download /></el-icon></el-button>
       </el-tooltip>
 
-        <el-button type="success" @click="onSubmit"><el-icon class="form-icon"><Check size="18"/></el-icon> <span class="form-icon-label">Next Step</span></el-button>
-        <el-button type="primary"><span class="form-icon-label" @click="onSubmit">Skip</span></el-button>
+        <el-button type="success" @click="onSubmit"><el-icon class="form-icon"><Check size="18"/></el-icon> <span class="form-icon-label">{{ t('invoices.settings.next') }}</span></el-button>
+        <el-button type="primary"><span class="form-icon-label" @click="onSubmit">{{ tt('invoices.settings.skip') }}</span></el-button>
         </div>
         </el-form-item>
   </el-form>

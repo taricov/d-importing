@@ -3,6 +3,14 @@ import { ref } from "vue"
 import { read, utils, writeFile } from 'xlsx';
 import { UploadFilled } from '@element-plus/icons-vue'
 import type { UploadProps, UploadUserFile } from 'element-plus'
+import _ from "lodash";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+
+
+const tt = (translation: string) => {
+  return _.capitalize(t(translation));
+};
 
 const emits = defineEmits()
 
@@ -39,11 +47,11 @@ const onUploadingFile: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
   >
     <el-icon class="el-icon--upload"><upload-filled /></el-icon>
     <div class="el-upload__text">
-      Drop file here or <em>click to upload</em>
+      {{ tt('invoices.upload.txt1') }} <em>{{ tt('invoices.upload.txt2') }}</em>
     </div>
     <template #tip>
       <div class="el-upload__tip">
-        Upload only .xlsx/.csv files
+        {{ tt('invoices.upload.tip') }}
       </div>
     </template>
   </el-upload>

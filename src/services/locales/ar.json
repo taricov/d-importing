@@ -1,4 +1,30 @@
 {
+  "header":{
+    "import": "ابدأ الآن",
+    "appearance": "إعدادات",
+    "about": "المزيد",
+    "how": "إرشادات",
+    "home": ""
+  },
+  "pageAppearance":{
+    "ar": "Ar",
+    "en": "En",
+    "dark": "ليلي",
+    "light": "مضيئ"
+  },
+  "pageHome":{
+    "mainLine1": "قم باستيراد كل فواتيرك إلى",
+    "mainLine2": "مرة واحدة .. قي غضون ثوانٍ.",
+    "desc": "We are a fairly small, flexible design studio that designs for print and web. We work flexibly with clients to fulfil their design needs. Whether you need to create a brand from scratch, including marketing materials and a beautiful and functional website or whether you are looking for a design refresh we are confident you will be pleased with the results.",
+    "daftra": "دفترة",
+    "whatOffer": "كيف ستستفيد من هذا البرنامج:",
+    "feat1": "استيؤاد الفواتير/العملاء/.. مرة واحدة.",
+    "feat2": "اختر الإعدادات التي تناسبك.",
+    "feat3": "افحص ملفاتك وفواتيرك قبل إرسالهم إلى دفترة.",
+    "feat4": "اختر الأعمدة التي تريد استخدامها في دفترة.",
+    "feat5": "استخدم القالب الخاص بك أو قم ببناء قالبك.",
+    "feat6": "عرض الفواتير."
+  },
     "tabs": {
       "one": "فواتير",
       "two": "عملاء",
@@ -6,10 +32,37 @@
       "four": "قيود يومية"
     },
     "invoices": {
+      "settings": {
+        "mult": "فواتير تحوي أكثر من صنف",
+        "totDis": "خصم على مستوى الفاتورة",
+        "itmDis": "خصم على مستوى البند",
+        "pay": "مدفوعة",
+        "custom": "حقول إضافية",
+        "tax": "نوع الضريبة",
+        "ex": "غير متضمنة",
+        "inc": "متضمنة",
+        "strict": "افحص جيدًا",
+        "next": "التالي",
+        "download": "حمل القالب",
+        "skip": "تخطي"
+      },
+      "upload": {
+        "tip": "الملفات المسموح بها .xlsx/.csv فقط",
+        "txt1": "اسحب الملف أو",
+        "txt2": "اضغظ لاختيار ملف"
+      },
+      "preview": {
+        "good": "تأكيد",
+        "rows": "صفوف"
+      },
+      "import": {
+        "import": "أرسل الفواتير"
+      },
       "accordion": {
         "one": "الإعدادات",
         "two": "تحميل الملف",
-        "three": "إرسال الملف"
+        "three": "استعراض البيانات",
+        "four": "إرسال الملف"
       },
         "steps": {
           "one": "أضف ملف",

@@ -1,4 +1,15 @@
 <script setup lang="ts">
+import _ from "lodash";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+
+
+const tt = (translation: string) => {
+  return _.capitalize(t(translation));
+};
+
+
+
 // Nav Bar
 
 document.querySelector('.menu-toggle')?.addEventListener("click", function(){
@@ -31,18 +42,18 @@ document.querySelector('.menu-toggle')?.addEventListener("click", function(){
     </div>
     <ul class="nav no-search">
       <li class="nav-item import-page">
-      <router-link to="/import">Import Now</router-link>
+      <router-link to="/import">{{ tt('header.import') }}</router-link>
       </li>
       <li class="nav-item">
-      <router-link to="/how-to-use">How To Use</router-link>
+      <router-link to="/how-to-use">{{ tt('header.how') }}</router-link>
       
       </li>
       <li class="nav-item">
-      <router-link to="/appearance" style="">Appearance</router-link>
+      <router-link to="/appearance" style="">{{ tt('header.appearance') }}</router-link>
       
       </li>
       <li class="nav-item">
-      <router-link to="/about">About</router-link>
+      <router-link to="/about">{{ tt('header.about') }}</router-link>
       
       </li>
     </ul>
@@ -150,7 +161,7 @@ h2 {
 
 .import-page{
   background-color: #23A6D5 ;
-  padding:2px 4px;
+  padding:2px 8px;
   border-radius: 3px;
   /* margin-bottom: 2px; */
 }

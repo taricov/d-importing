@@ -185,7 +185,7 @@ const tt = (translation: string) => {
       <el-collapse-item :title="tt('invoices.accordion.three')" name="preview">
         <el-button type="success" @click="goToImport"
           ><el-icon class="form-icon"><Check size="18" /></el-icon>
-          <span class="form-icon-label">All is Good</span></el-button
+          <span class="form-icon-label">{{ tt('invoices.preview.good') }}</span></el-button
         >
         <v-table :data="data" />
       </el-collapse-item>
@@ -194,7 +194,7 @@ const tt = (translation: string) => {
           style="margin: 20px auto 0; width: 50%"
           @click="onImport"
           type="success"
-          >Import</el-button
+          >{{ tt('invoices.import.import') }}</el-button
         >
       </el-collapse-item>
     </el-collapse>
@@ -224,6 +224,10 @@ const tt = (translation: string) => {
   display:flex;
   justify-content:center;
 } */
+
+.el-steps{
+  padding: 0 0 20px;
+}
 .el-tabs__content {
   padding: 0px !important;
 }

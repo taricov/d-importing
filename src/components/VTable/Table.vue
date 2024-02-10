@@ -1,6 +1,15 @@
 
 <script lang="ts" setup>
 import { ref, watch } from "vue"
+import _ from "lodash";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+
+
+const tt = (translation: string) => {
+  return _.capitalize(t(translation));
+};
+
 const props = defineProps(["data"])
 
   const headers = ref<string[]>([])
@@ -35,7 +44,7 @@ watch(() => props.data, (data, oldData) => {
 <template>
   <div>
   <div style="display:flex;justify-content:flex-end">
-  <sub>({{ data.length }} rows)</sub>
+  <sub>({{ data.length }} {{ tt('invoices.preview.rows') }})</sub>
   </div>
     <el-table height="500" :data="data" 
     :span-method="objectSpanMethod"

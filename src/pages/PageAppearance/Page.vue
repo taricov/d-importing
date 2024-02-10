@@ -5,7 +5,12 @@ import _ from "lodash";
 const emit = defineEmits(["currentMode", "currentLanguage"]);
 import { useI18n } from "vue-i18n";
 
-const { locale } = useI18n();
+const { t, locale } = useI18n();
+
+
+const tt = (translation: string) => {
+  return _.capitalize(t(translation));
+};
 
 // DarkMode:
 const isDark = ref<Boolean>(false);
@@ -53,8 +58,8 @@ const toggleLang = () => {
     :value="isEnglish"
     class="mx-2"
     style="margin-inline:10px !important"
-    active-text="En"
-    inactive-text="Ar"
+    :active-text="tt('pageAppearance.en')"
+    :inactive-text="tt('pageAppearance.ar')"
   />
   <!-- <el-button mb-2 @click="toggleLang">{{ _.capitalize(language) }}</el-button> -->
 </el-col>
@@ -66,8 +71,8 @@ const toggleLang = () => {
     @change="toggleDark"
     :value="isDark"
     class="m-2"
-    active-text="Dark"
-    inactive-text="Light"
+    :active-text="tt('pageAppearance.dark')"
+    :inactive-text="tt('pageAppearance.light')"
   >
   <template #inactive-action>
     <el-icon><Sunny /></el-icon>

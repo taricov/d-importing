@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import _ from "lodash";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+
+
+const tt = (translation: string) => {
+  return _.capitalize(t(translation));
+};
+</script>
+
 <template>
   <div style="">
     <div class="logo-container">
@@ -28,25 +39,19 @@
       </svg>
       <div class="logo-title">D-Import</div>
       <p class="main-line">
-        Bulk import all your data into <b>Daftra</b> ERP in matter of seconds
+        {{ tt('pageHome.mainLine1') }} <b>{{ tt('pageHome.daftra') }}</b> {{ tt('pageHome.mainLine2') }}
       </p>
 
       <section class="desc-line">
-        <p>
-          We are a fairly small, flexible design studio that designs for print and web. We
-          work flexibly with clients to fulfil their design needs. Whether you need to
-          create a brand from scratch, including marketing materials and a beautiful and
-          functional website or whether you are looking for a design refresh we are
-          confident you will be pleased with the results.
-        </p>
-        <p>What this app does:</p>
+        <p>{{ tt('pageHome.desc') }}</p>
+        <p>{{ tt('pageHome.whatOffer') }}</p>
         <ul>
-          <li>Import Invoices/Clients/..etc in bulk.</li>
-          <li>Tune different settings to fit needs.</li>
-          <li>Validate your files and check on them before import.</li>
-          <li>Map your column to Daftra's invoice field.</li>
-          <li>Use your template or build yours.</li>
-          <li>View all data</li>
+          <li>{{ tt('pageHome.feat1') }}</li>
+          <li>{{ tt('pageHome.feat2') }}</li>
+          <li>{{ tt('pageHome.feat3') }}</li>
+          <li>{{ tt('pageHome.feat4') }}</li>
+          <li>{{ tt('pageHome.feat5') }}</li>
+          <li>{{ tt('pageHome.feat6') }}</li>
         </ul>
       </section>
     </div>
@@ -54,7 +59,6 @@
   </div>
 </template>
 
-<script setup></script>
 
 <style scoped>
 .main-line {

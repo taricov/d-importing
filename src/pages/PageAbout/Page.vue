@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import _ from "lodash";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+
+
+const tt = (translation: string) => {
+  return _.capitalize(t(translation));
+};
+
+</script>
 <template>
   <el-descriptions
     title="Vertical list with border"
@@ -19,8 +30,6 @@
 
 </template>
 
-<script setup lang="ts">
-</script>
 
 <style scoped>
 .el-descriptions {
