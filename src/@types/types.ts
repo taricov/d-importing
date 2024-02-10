@@ -1,8 +1,8 @@
-export interface TinvoiceSettings {
+// export interface TinvoiceSettings {
 
-}
-export interface Tcredentials {
-    apikey: string
-    subdomain: string
-  }
+// }
+// export interface Tcredentials {
+//     apikey: string
+//     subdomain: string
+//   }
   

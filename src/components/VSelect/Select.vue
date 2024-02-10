@@ -34,7 +34,7 @@ watch(selected, () => {
       v-for="item in group.options"
     :disabled="selected.includes(item.key)"
       :key="item.key"
-      :label="_.capitalize(item.key).split('_').join(' ')"
+      :label="item.label"
       :value="item.key"
     />
     </el-option-group>

@@ -46,8 +46,8 @@ watch(() => props.data, (data, oldData) => {
   <div style="display:flex;justify-content:flex-end">
   <sub>({{ data.length }} {{ tt('invoices.preview.rows') }})</sub>
   </div>
+    <!-- :span-method="objectSpanMethod" -->
     <el-table height="500" :data="data" 
-    :span-method="objectSpanMethod"
       style="width: 100%; margin-top: 20px"
       border
     >

@@ -11,11 +11,14 @@ import VSettingsForm from "../../components/VSettingsForm/SettingsForm.vue";
 import VColumnMapping from "../../components/VColumnMapping/ColumnMapping.vue";
 import { Tcredentials, TinvoiceSettings } from "../../@types/types.ts";
 import { convertDate } from "../../utils/untils";
-import { APIrequest } from "../../api/index.ts";
+import { APIrequest } from "../../api";
 import { credentials } from "../../api/common";
 import { useI18n } from "vue-i18n";
 const allProducts = ref({});
 const allClients = ref({});
+const allBranches = ref({});
+const paymentsGateWays = ref(["cash", "cheque", "bank", "paytabs", "cash_on_delivery"]);
+
 const invoiceStats = ref({});
 const stepActive = ref(0);
 defineProps(["headers", "tableRows"]);
@@ -32,6 +35,8 @@ const extractData = (val: any[]) => {
     stepActive.value = 1;
   }
 };
+
+
 
 // GET All Clients:
 const GETallClients = async (credentials: Tcredentials) => {
@@ -75,12 +80,35 @@ const GETallProducts = async(credentials: Tcredentials) => {
   );
 
 }
+// GET All Branches:
+const GETallBranches = async(credentials: Tcredentials) => {
+  const res = await fetch(
+    `https://${credentials.subdomain}.daftra.com/api2/branches?limit=100`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        apikey: credentials.apikey,
+      },
+    }
+  );
+  const branches = await res.json();
+  const branchesArr = branches.data.map((bran) => ({
+    [bran.Branch.code]: bran.Branch.id,
+  }));
+  allBranches.value = Object.entries(branchesArr).reduce(
+    (p, [k, v]) => ({ ...p, [Object.keys(v)[0]]: Object.values(v)[0] }),
+    {}
+  );
 
-onBeforeMount(() => {
-  GETallClients(credentials);
-  GETallProducts(credentials);
+}
 
-  console.log(allClients, allProducts);
+onBeforeMount(async() => {
+  const branches = await APIrequest({credentials, key:"/branches"})
+  console.log(branches)
+  // GETallClients(credentials);
+  // GETallBranches(credentials);
+  // GETallProducts(credentials);
+  // console.log(allClients.value, allProducts.value, allBranches.value);
 });
 
 const onImport = async () => {
