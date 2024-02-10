@@ -42,7 +42,7 @@ const downloadTemplate = () => {
     <el-row :gutter="20">
       <el-col :span="12">
         <el-form-item :label="tt('invoices.settings.mult')">
-          <el-switch v-model="formVals.mulipleItems" /> 
+          <el-switch disabled v-model="formVals.mulipleItems" /> 
         </el-form-item>
       </el-col>
       <el-col :span="12">
@@ -94,7 +94,7 @@ const downloadTemplate = () => {
         :content="tt('invoices.settings.download')"
         placement="top-start"
       >
-        <el-button :loading="downloading" type="primary" @click="downloadTemplate" ><a href="../../../public/assets/template.xlsx" download><el-icon v-if="!downloading" class="form-icon"><Download /></el-icon></a></el-button>
+        <el-button :loading="downloading" type="primary" @click="downloadTemplate" ><a style="color:#fff" href="../../../public/assets/template.xlsx" download><el-icon v-if="!downloading" class="form-icon"><Download /></el-icon></a></el-button>
       </el-tooltip>
 
         <el-button style="margin-inline: 3px;" type="success" @click="onSubmit"><el-icon class="form-icon"><Check size="18"/></el-icon> <span class="form-icon-label">{{ t('invoices.settings.next') }}</span></el-button>

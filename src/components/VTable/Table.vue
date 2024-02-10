@@ -54,7 +54,6 @@ watch(() => props.data, (data, oldData) => {
     <template v-for="h in headers" :key="h">
       <el-table-column :prop="h" :label="h" width="180" />
     </template>
-
   </el-table>
   </div>
 </template>
