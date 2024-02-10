@@ -97,7 +97,7 @@ const downloadTemplate = () => {
         <el-button :loading="downloading" type="primary" @click="downloadTemplate" ><a href="../../../public/assets/template.xlsx" download><el-icon v-if="!downloading" class="form-icon"><Download /></el-icon></a></el-button>
       </el-tooltip>
 
-        <el-button type="success" @click="onSubmit"><el-icon class="form-icon"><Check size="18"/></el-icon> <span class="form-icon-label">{{ t('invoices.settings.next') }}</span></el-button>
+        <el-button style="margin-inline: 3px;" type="success" @click="onSubmit"><el-icon class="form-icon"><Check size="18"/></el-icon> <span class="form-icon-label">{{ t('invoices.settings.next') }}</span></el-button>
         <el-button type="primary"><span class="form-icon-label" @click="onSubmit">{{ tt('invoices.settings.skip') }}</span></el-button>
         </div>
         </el-form-item>

@@ -57,6 +57,11 @@
       "txt1": "Drop file here or",
       "txt2": "click to upload"
     },
+    "mapping": {
+      "primaryCol": "Select Primary Column",
+      "primaryTip": "Only one allowed",
+      "mappedCol": " Select the Mapped Column"
+    },
     "preview": {
       "good": "All Good",
       "rows": "rows"

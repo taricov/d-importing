@@ -1,12 +1,20 @@
 <script lang="ts" setup>
-import fields from "../../data/fields";
+import enFields from "../../data/en-fields";
+import arFields from "../../data/ar-fields";
 import VSelect from "../VSelect/Select.vue";
 import { ref, reactive } from "vue";
+import _ from "lodash";
+import { useI18n } from "vue-i18n";
+const { t, locale } = useI18n();
+
+const tt = (translation: string) => {
+  return t(translation);
+};
 const emits = defineEmits(["formData"]);
 const props = defineProps(["headers"]);
 // const downloadedTemplate = ref<Boolean>(false)
 const primaryCol = ref<Number>();
-let options = reactive<any>(fields);
+let options = reactive<any>(locale.value === "en" ? enFields : arFields);
 const formVals = ref<string[]>([]);
 // const onSubmit = () => {
 //   emits("formData", formVals);
@@ -22,10 +30,11 @@ const onSelect = (val: string, i: number) => {
 <template>
   <el-form :model="formVals">
     <el-row :gutter="10" style="margin-bottom: 10px; justify-content: space-between">
-      <el-col :span="6" style="text-align: flex-start">
-        Select Primary Column (Only one allowed)
+      <el-col :span="6" style="text-align: flex-start; line-height: 10px;">
+        {{  tt('invoices.mapping.primaryCol') }} <br/><sub>
+        ({{ tt('invoices.mapping.primaryTip') }})</sub>
       </el-col>
-      <el-col :span="6" style="text-align: flex-end"> Select Mapped Column </el-col>
+      <el-col :span="6" style="text-align: flex-end">{{ tt('invoices.mapping.mappedCol') }}</el-col>
     </el-row>
     <el-row
       v-for="(col, i) in props.headers"
@@ -105,4 +114,8 @@ const onSelect = (val: string, i: number) => {
   </el-form>
 </template>
 
-<style></style>
+<style>
+.el-radio__label{
+  padding-inline: 8px ;
+}
+</style>

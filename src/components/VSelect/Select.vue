@@ -25,12 +25,18 @@ watch(selected, () => {
     placeholder="Select"
     style="width: 240px"
   >
+  <el-option-group
+      v-for="group in options"
+      :key="group.label"
+      :label="group.label"
+    >
     <el-option
-      v-for="item in options"
+      v-for="item in group.options"
     :disabled="selected.includes(item.key)"
       :key="item.key"
       :label="_.capitalize(item.key).split('_').join(' ')"
       :value="item.key"
     />
+    </el-option-group>
   </el-select>
 </template>
