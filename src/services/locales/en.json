@@ -38,6 +38,12 @@
     "four": "journal transactions"
   },
   "invoices": {
+    "tips":{
+      "pay1": "Whether invoices include payments or not. Possible Options:",
+      "pay2": "[{Condition: 'Payment Amount = Invoice Total',Status: 'Fully Paid'},{Condition: 'Payment Amount > Invoice Total',Status: 'Partially Paid'},{Condition: 'Payment Amount = 0',Status: 'Not Paid'}]",
+      "mult": "Whether invoices have one item or multiple items.",
+      "custom": "Whether you want to store data into your custom fields."
+    },
     "settings": {
       "mult": "Multiple Items",
       "totDis": "Total Discount",
