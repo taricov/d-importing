@@ -35,11 +35,11 @@ const extractData = (val: any[]) => {
     console.log(data.value)
     invoiceStats.value = {
       count: data.value.length, 
-      paidCount: data.value.filter((d) =>Object.values(d)[6] !== null && Object.values(d)[6] !== 0).length,
-      beforeTax: Summarycalc(5)-(Summarycalc(5)*0.15),
-        afterTax: Summarycalc(5),
-        paid: Summarycalc(6),
-        tax: Summarycalc(5)*0.15,
+      paidCount: data.value.filter((d) =>Object.values(d)[11] !== "" && Object.values(d)[11] !== 0).length,
+      beforeTax: Summarycalc(9)-(Summarycalc(9)*0.15),
+        afterTax: Summarycalc(9),
+        paid: Summarycalc(11),
+        tax: Summarycalc(9)*0.15,
       },
       console.log(invoiceStats.value);
       // data.value.map((d) => {

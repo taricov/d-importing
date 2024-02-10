@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue"
+import _ from "lodash"
 import { read, utils, writeFile } from 'xlsx';
 import { UploadFilled } from '@element-plus/icons-vue'
 import type { UploadProps, UploadUserFile } from 'element-plus'
-import _ from "lodash";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
 
@@ -16,7 +16,7 @@ const emits = defineEmits()
 
 const fileList = ref<UploadUserFile[]>([])
 const headers = ref<String[]>([])
-const data = ref<any[]>([])
+// const data = ref<any[]>([])
 
 const onUploadingFile: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
   fileList.value = [...fileList.value, uploadFile]
@@ -24,10 +24,11 @@ const onUploadingFile: UploadProps['onChange'] = (uploadFile, uploadFiles) => {
     const raw = await f.raw?.arrayBuffer();
     const parsed = await read(raw);
     const sheet = parsed.Sheets[parsed.SheetNames[0]]
-    const json = await utils.sheet_to_json(sheet, {defval: ''});
-    console.log("json", json)
+    const json = await utils.sheet_to_json(sheet, {defval: ""});
+    json.forEach(function(v){ delete v.__EMPTY })
+
      headers.value = Object.entries(json[0]!).map(([k, v]) => k)
-     data.value = json.slice(1, json.length)
+    //  data.value = json.slice(1, json.length)
     emits("headers", headers.value)
     emits("tableRows", json)
   })
