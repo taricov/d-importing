@@ -9,15 +9,18 @@ import VSummary from "../../components/VSummary/Summary.vue";
 import VTable from "../../components/VTable/Table.vue";
 import VSettingsForm from "../../components/VSettingsForm/SettingsForm.vue";
 import VColumnMapping from "../../components/VColumnMapping/ColumnMapping.vue";
+//@ts-ignore
 import { Tcredentials, TinvoiceSettings } from "../../@types/types.ts";
 import { convertDate } from "../../utils/untils";
+//@ts-ignore
 import { APIrequest } from "../../api";
+//@ts-ignore
 import { credentials } from "../../api/common";
 import { useI18n } from "vue-i18n";
-const allProducts = ref({});
-const allClients = ref({});
-const allBranches = ref({});
-const paymentsGateWays = ref(["cash", "cheque", "bank", "paytabs", "cash_on_delivery"]);
+// const allProducts = ref({});
+// const allClients = ref({});
+// const allBranches = ref({});
+// const paymentsGateWays = ref(["cash", "cheque", "bank", "paytabs", "cash_on_delivery"]);
 
 const invoiceStats = ref({});
 const stepActive = ref(0);
@@ -53,68 +56,68 @@ const extractData = (val: any[]) => {
 
 
 // GET All Clients:
-const GETallClients = async (credentials: Tcredentials) => {
-  const res = await fetch(
-    `https://${credentials.subdomain}.daftra.com/api2/clients?limit=2000`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        apikey: credentials.apikey,
-      },
-    }
-  );
-  const clients = await res.json();
-  const clientsArr = clients.data.map((client:any) => ({
-    [client.Client.client_number]: client.Client.id,
-  }));
+// const GETallClients = async (credentials: Tcredentials) => {
+//   const res = await fetch(
+//     `https://${credentials.subdomain}.daftra.com/api2/clients?limit=2000`,
+//     {
+//       headers: {
+//         "Content-Type": "application/json",
+//         apikey: credentials.apikey,
+//       },
+//     }
+//   );
+//   const clients = await res.json();
+//   const clientsArr = clients.data.map((client:any) => ({
+//     [client.Client.client_number]: client.Client.id,
+//   }));
 
-  allClients.value = Object.entries(clientsArr).reduce(
-    (p, [k, v]) => ({ ...p, [Object.keys(v)[0]]: Object.values(v)[0] }),
-    {}
-  );
-};
+//   allClients.value = Object.entries(clientsArr).reduce(
+//     (p, [k, v]) => ({ ...p, [Object.keys(v)[0]]: Object.values(v)[0] }),
+//     {}
+//   );
+// };
 // GET All Products:
-const GETallProducts = async(credentials: Tcredentials) => {
-  const res = await fetch(
-    `https://${credentials.subdomain}.daftra.com/api2/products?limit=2000`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        apikey: credentials.apikey,
-      },
-    }
-  );
-  const products = await res.json();
-  const productsArr = products.data.map((prod) => ({
-    [prod.Product.product_code]: prod.Product.id,
-  }));
-  allProducts.value = Object.entries(productsArr).reduce(
-    (p, [k, v]) => ({ ...p, [Object.keys(v)[0]]: Object.values(v)[0] }),
-    {}
-  );
+// const GETallProducts = async(credentials: Tcredentials) => {
+//   const res = await fetch(
+//     `https://${credentials.subdomain}.daftra.com/api2/products?limit=2000`,
+//     {
+//       headers: {
+//         "Content-Type": "application/json",
+//         apikey: credentials.apikey,
+//       },
+//     }
+//   );
+//   const products = await res.json();
+//   const productsArr = products.data.map((prod) => ({
+//     [prod.Product.product_code]: prod.Product.id,
+//   }));
+//   allProducts.value = Object.entries(productsArr).reduce(
+//     (p, [k, v]) => ({ ...p, [Object.keys(v)[0]]: Object.values(v)[0] }),
+//     {}
+//   );
 
-}
+// }
 // GET All Branches:
-const GETallBranches = async(credentials: Tcredentials) => {
-  const res = await fetch(
-    `https://${credentials.subdomain}.daftra.com/api2/branches?limit=100`,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        apikey: credentials.apikey,
-      },
-    }
-  );
-  const branches = await res.json();
-  const branchesArr = branches.data.map((bran) => ({
-    [bran.Branch.code]: bran.Branch.id,
-  }));
-  allBranches.value = Object.entries(branchesArr).reduce(
-    (p, [k, v]) => ({ ...p, [Object.keys(v)[0]]: Object.values(v)[0] }),
-    {}
-  );
+// const GETallBranches = async(credentials: Tcredentials) => {
+//   const res = await fetch(
+//     `https://${credentials.subdomain}.daftra.com/api2/branches?limit=100`,
+//     {
+//       headers: {
+//         "Content-Type": "application/json",
+//         apikey: credentials.apikey,
+//       },
+//     }
+//   );
+//   const branches = await res.json();
+//   const branchesArr = branches.data.map((bran) => ({
+//     [bran.Branch.code]: bran.Branch.id,
+//   }));
+//   allBranches.value = Object.entries(branchesArr).reduce(
+//     (p, [k, v]) => ({ ...p, [Object.keys(v)[0]]: Object.values(v)[0] }),
+//     {}
+//   );
 
-}
+// }
 
 onBeforeMount(async() => {
   // const branches = await APIrequest(creds=credentials, key="/branches")
@@ -136,7 +139,7 @@ const onImport = async () => {
     const d: any = {
       Invoice: {
         draft: 1,
-        "client_id": allClients[inv[1]],
+        // "client_id": allClients[inv[1]],
         business_name: inv[2],
         address1: inv[3],
         phone1: inv[5],
@@ -150,7 +153,7 @@ const onImport = async () => {
         {
           // "item": allProducts[inv[7]] || inv[7],
           description: inv[8],
-          unit_price: inv[9] / 1.15,
+          // unit_price: inv[9] / 1.15,
           quantity: 1,
           tax1: 1,
           product_id: inv[6],

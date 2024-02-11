@@ -14,29 +14,29 @@ const props = defineProps(["data"])
 
   const headers = ref<string[]>([])
 
-const objectSpanMethod = ({
-  row,
-  column,
-  rowIndex,
-  columnIndex,
-}) => {
-  if (columnIndex === 0) {
-    // row[key]
-    if (rowIndex % 2 === 0) {
-      return {
-        rowspan: 2,
-        colspan: 1,
-      }
-    } else {
-      return {
-        rowspan: 0,
-        colspan: 0,
-      }
-    }
-  }
-} 
+// const objectSpanMethod = ({
+//   row,
+//   column,
+//   rowIndex,
+//   columnIndex,
+// }) => {
+//   if (columnIndex === 0) {
+//     // row[key]
+//     if (rowIndex % 2 === 0) {
+//       return {
+//         rowspan: 2,
+//         colspan: 1,
+//       }
+//     } else {
+//       return {
+//         rowspan: 0,
+//         colspan: 0,
+//       }
+//     }
+//   }
+// } 
 
-watch(() => props.data, (data, oldData) => { 
+watch(() => props.data, (data, _) => { 
   headers.value = Object.keys(data[0])
 })
 

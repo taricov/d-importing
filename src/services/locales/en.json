@@ -39,24 +39,36 @@
   },
   "invoices": {
     "tips":{
-      "pay1": "Whether invoices include payments or not. Possible Options:",
-      "pay2": "[{Condition: 'Payment Amount = Invoice Total',Status: 'Fully Paid'},{Condition: 'Payment Amount > Invoice Total',Status: 'Partially Paid'},{Condition: 'Payment Amount = 0',Status: 'Not Paid'}]",
-      "mult": "Whether invoices have one item or multiple items.",
-      "custom": "Whether you want to store data into your custom fields."
+    
     },
     "settings": {
       "mult": "Multiple Items",
+      "mult1": "Whether invoices have one item or multiple items.",
       "totDis": "Total Discount",
       "itmDis": "Item Discount",
       "pay": "Include Payments",
       "custom": "Custom Fields",
+      "custom1": "Whether you want to store data into your custom fields.",
       "tax": "Tax Mode",
       "ex": "Exclusive",
       "inc": "Inclusive",
       "strict": "Strictly Checking",
       "next": "Next",
       "download": "download template",
-      "skip": "skip"
+      "skip": "skip",
+      "pay1": "Whether invoices include payments or not. Possible Options:",
+      "pay2": "[{Condition: 'Payment Amount = Invoice Total',Status: 'Fully Paid'},{Condition: 'Payment Amount > Invoice Total',Status: 'Partially Paid'},{Condition: 'Payment Amount = 0',Status: 'Not Paid'}]",
+      "spacialTax": "Special Tax",
+      "spacialTax1": "Whether you want to use a Spacial Tax in your invoices other than the standard VAT 15% value-added tax",
+      "payMethod": "Payment Method",
+      "payMethod1": "If you want to specify a payment method in your invoices, you should use one of the following values in your excel file (Payment Method Column):",
+      "payMethod2": "cash, cheque, bank, paytabs, cash_on_delivery",
+      "treasury": "Treasury",
+      "treasury1": "If you want to specify a treasury to collect cash, you should use the treasury code/number in Daftra.",
+      "newClients": "New Clients",
+      "newClients1": "Wether your invoices will have new (Un-registered) clients on Daftra ERP.",
+      "newClients2": "By toggling this option On, The App will automatically add the new clients to Daftra and create their preofile based on the provided data, then creates their invoice."
+
     },
     "upload": {
       "tip": "Upload only .xlsx/.csv files",

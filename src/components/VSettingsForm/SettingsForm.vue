@@ -2,6 +2,7 @@
 import { reactive, ref } from "vue";
 import _ from "lodash";
 import { useI18n } from "vue-i18n";
+//@ts-ignore
 import VPopover from "../VPopover/Popover.vue";
 const { t, locale } = useI18n();
 
@@ -26,6 +27,7 @@ const formVals = reactive({
   taxMode: false,
   strictCheck: false,
   customFields: false,
+  specialTax: false,
 });
 
 const onSubmit = () => {
@@ -51,19 +53,85 @@ const downloadTemplate = () => {
             {{ tt("invoices.settings.mult") }}
             <v-popover type="info">
               <template #main>
-                {{ tt("invoices.tips.pay1") }}
+                {{ tt("invoices.settings.pay1") }}
               </template>
               <template #extended>
-                {{ tt("invoices.tips.mult") }}
+                {{ tt("invoices.settings.mult1") }}
               </template>
             </v-popover>
           </template>
           <el-switch disabled v-model="formVals.mulipleItems" />
         </el-form-item>
-      </el-col>
+        </el-col>
       <el-col :span="12">
         <el-form-item :label="tt('invoices.settings.totDis')">
           <el-switch v-model="formVals.discountTotal" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-form-item :label="tt('invoices.settings.spacialTax')">
+          <template #label>
+            {{ tt("invoices.settings.spacialTax") }}
+            <v-popover type="info">
+              <template #main>
+                {{ tt("invoices.settings.spacialTax1") }}
+              </template>
+            </v-popover>
+          </template>
+          <el-switch disabled v-model="formVals.specialTax" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item :label="tt('invoices.settings.payMethod')">
+          <template #label>
+            {{ tt("invoices.settings.payMethod") }}
+            <v-popover type="info">
+              <template #main>
+                {{ tt("invoices.settings.payMethod1") }}
+              </template>
+              <template #extended>
+              <p><i>
+                *{{ tt("invoices.settings.payMethod2") }}
+              </i></p>
+              </template>
+            </v-popover>
+          </template>
+          <el-switch disabled v-model="formVals.specialTax" />
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <el-form-item :label="tt('invoices.settings.treasury')">
+          <template #label>
+            {{ tt("invoices.settings.treasury") }}
+            <v-popover type="info">
+              <template #main>
+                {{ tt("invoices.settings.treasury1") }}
+              </template>
+            </v-popover>
+          </template>
+          <el-switch disabled v-model="formVals.specialTax" />
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item :label="tt('invoices.settings.newClients')">
+          <template #label>
+            {{ tt("invoices.settings.newClients") }}
+            <v-popover type="info">
+              <template #main>
+                {{ tt("invoices.settings.newClients1") }}
+              </template>
+              <template #extended>
+              <p style="line-height: 1.2;background:#1685c8;padding:4px 5px;color:#fff;border-radius: 3px;"><i>
+                *{{ tt("invoices.settings.newClients2") }}
+              </i></p>
+              </template>
+            </v-popover>
+          </template>
+          <el-switch disabled v-model="formVals.specialTax" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -80,7 +148,7 @@ const downloadTemplate = () => {
             {{ tt("invoices.settings.pay") }}
             <v-popover type="info">
               <template #main>
-                {{ tt("invoices.tips.pay1") }}
+                {{ tt("invoices.settings.pay1") }}
               </template>
               <template #extended>
                 <el-table style="width: 100%;font-size:small"  :data="paymentConditions" border>
@@ -102,7 +170,7 @@ const downloadTemplate = () => {
             {{ tt("invoices.settings.custom") }}
             <v-popover type="why">
               <template #main>
-                {{ tt("invoices.tips.custom") }}
+                {{ tt("invoices.settings.custom1") }}
               </template>
             </v-popover>
           </template>
