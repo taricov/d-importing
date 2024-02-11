@@ -8,24 +8,37 @@ const tt = (translation: string) => {
   return _.capitalize(t(translation));
 };
 
+const invoiceCols = [
+  {
+    colName: "paid",
+    instructions:"Paid",
+    posibbleVals: ["cash", "bank", "cheque"]
+
+  },
+  {
+    colName: "Payment Date",
+    instructions:"lofdsfm lekfmdslkfm mflkfjoiw j[a]",
+    posibbleVals: ""
+
+  }
+  ]
+
 </script>
 <template>
   <el-descriptions
-    title="Vertical list with border"
+    :title="'Invoice Importing Guidance:'"
     direction="vertical"
     :column="4"
-    :size="size"
     border
   >
-    <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
-    <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
-    <el-descriptions-item label="Place" :span="2">Suzhou</el-descriptions-item>
-    <el-descriptions-item label="Remarks">
-      <el-tag size="small">School</el-tag>
+  <template v-for="item in invoiceCols">
+    <el-descriptions-item :label="'Column Name'">{{ item.colName }}</el-descriptions-item>
+    <el-descriptions-item :label="'Instructions'">{{ item.instructions }}</el-descriptions-item>
+    <el-descriptions-item :label="'Possible Values'" :span="2" >
+      <el-tag size="small" style="margin:0 .8px" v-for="tag in item.posibbleVals">{{ tag }}</el-tag>
+      <p v-if="!item.posibbleVals.length">No Values</p>
     </el-descriptions-item>
-    <el-descriptions-item label="Address"
-      >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu Province
-    </el-descriptions-item>
+  </template>
   </el-descriptions>
 
 </template>

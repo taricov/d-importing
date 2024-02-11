@@ -26,3 +26,16 @@ export function convertDate(excelDate) {
     return `${year}-${month}-${day}` 
   } 
     }
+
+
+  export async function downloadInvoices(){
+    function sleep(ms) {
+return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+    // this.downloading = true;
+    document.querySelectorAll(".inv-links a").forEach(async inv=>{
+      inv.click()
+      await sleep(5000)
+    })
+  }

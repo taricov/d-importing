@@ -92,7 +92,9 @@
       "rows": "rows"
     },
     "import": {
-      "import": "Send Invoices"
+      "import": "Send Invoices",
+      "reset": "Start All Over",
+      "download": "Download"
     },
     "accordion": {
       "one": "settings",

@@ -96,6 +96,7 @@ h2 {
 .page-wrapper {
   width: 100%;
   height: auto;
+  z-index: 10;
 }
 
 .nav-wrapper {

@@ -10,10 +10,19 @@ const tt = (translation: string) => {
   return _.capitalize(t(translation));
 };
 
-const enPaymentConditions = [{condition: 'Payment Amount = Invoice Total',status: 'Fully Paid'},{condition: 'Payment Amount > Invoice Total',status: 'Partially Paid'},{condition: 'Payment Amount = 0',status: 'Not Paid'}]
-const arPaymentConditions = [{condition: 'المبلغ المدفوع = إجمالي الفاتورة',status: 'مدفوعة كليًا'},{condition: 'المبلغ المدفوع < إجمالي الفاتورة',status: 'مدفوعة جزئيًا'},{condition: 'المبلغ المدفوع = 0',status: 'غير مدفوعة'}]
-const paymentConditions = ref(locale.value === "en" ? enPaymentConditions : arPaymentConditions)
-
+const enPaymentConditions = [
+  { condition: "Payment Amount = Invoice Total", status: "Fully Paid" },
+  { condition: "Payment Amount > Invoice Total", status: "Partially Paid" },
+  { condition: "Payment Amount = 0", status: "Not Paid" },
+];
+const arPaymentConditions = [
+  { condition: "المبلغ المدفوع = إجمالي الفاتورة", status: "مدفوعة كليًا" },
+  { condition: "المبلغ المدفوع < إجمالي الفاتورة", status: "مدفوعة جزئيًا" },
+  { condition: "المبلغ المدفوع = 0", status: "غير مدفوعة" },
+];
+const paymentConditions = ref(
+  locale.value === "en" ? enPaymentConditions : arPaymentConditions
+);
 
 const emits = defineEmits(["formData", "nextPhase"]);
 const downloadedTemplate = ref<Boolean>(false);
@@ -62,7 +71,7 @@ const downloadTemplate = () => {
           </template>
           <el-switch disabled v-model="formVals.mulipleItems" />
         </el-form-item>
-        </el-col>
+      </el-col>
       <el-col :span="12">
         <el-form-item :label="tt('invoices.settings.totDis')">
           <el-switch v-model="formVals.discountTotal" />
@@ -92,9 +101,9 @@ const downloadTemplate = () => {
                 {{ tt("invoices.settings.payMethod1") }}
               </template>
               <template #extended>
-              <p><i>
-                *{{ tt("invoices.settings.payMethod2") }}
-              </i></p>
+                <p>
+                  <i> *{{ tt("invoices.settings.payMethod2") }} </i>
+                </p>
               </template>
             </v-popover>
           </template>
@@ -125,9 +134,17 @@ const downloadTemplate = () => {
                 {{ tt("invoices.settings.newClients1") }}
               </template>
               <template #extended>
-              <p style="line-height: 1.2;background:#1685c8;padding:4px 5px;color:#fff;border-radius: 3px;"><i>
-                *{{ tt("invoices.settings.newClients2") }}
-              </i></p>
+                <p
+                  style="
+                    line-height: 1.2;
+                    background: #1685c8;
+                    padding: 4px 5px;
+                    color: #fff;
+                    border-radius: 3px;
+                  "
+                >
+                  <i> *{{ tt("invoices.settings.newClients2") }} </i>
+                </p>
               </template>
             </v-popover>
           </template>
@@ -151,9 +168,20 @@ const downloadTemplate = () => {
                 {{ tt("invoices.settings.pay1") }}
               </template>
               <template #extended>
-                <el-table style="width: 100%;font-size:small"  :data="paymentConditions" border>
-                  <el-table-column  prop="condition" :label="locale === 'en' ? 'Condition' : 'في حالة'" width="220" />
-                  <el-table-column  prop="status" :label="locale === 'en' ? 'Status':'حالة الفاتورة'" />
+                <el-table
+                  style="width: 100%; font-size: small"
+                  :data="paymentConditions"
+                  border
+                >
+                  <el-table-column
+                    prop="condition"
+                    :label="locale === 'en' ? 'Condition' : 'في حالة'"
+                    width="220"
+                  />
+                  <el-table-column
+                    prop="status"
+                    :label="locale === 'en' ? 'Status' : 'حالة الفاتورة'"
+                  />
                 </el-table>
               </template>
             </v-popover>
@@ -202,7 +230,7 @@ const downloadTemplate = () => {
       <div>
         <el-tooltip :content="tt('invoices.settings.download')" placement="top-start">
           <el-button :loading="downloading" type="primary" @click="downloadTemplate"
-            ><a style="color: #fff" href="../../../public/assets/template.xlsx" download
+            ><a style="color: #fff" href="/assets/template.xlsx" download
               ><el-icon v-if="!downloading" class="form-icon"><Download /></el-icon></a
           ></el-button>
         </el-tooltip>
@@ -248,7 +276,7 @@ const downloadTemplate = () => {
 .hint {
   margin-bottom: 10px;
 }
-.el-table__cell{
+.el-table__cell {
   padding: 3px 0 !important;
 }
 </style>
