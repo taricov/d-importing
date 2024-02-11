@@ -18,6 +18,7 @@ import { useI18n } from "vue-i18n";
 const allProducts = ref({});
 const allClients = ref({});
 const allBranches = ref({});
+const allTaxes = ref({});
 
 const invoiceStats = ref({});
 const stepActive = ref(0);
@@ -33,10 +34,10 @@ const extractData = (val: any[]) => {
     invoiceStats.value = {
       count: data.value.length, 
       paidCount: data.value.filter((d) =>Object.values(d)[11] !== "" && Object.values(d)[11] !== 0).length,
-      beforeTax: Summarycalc(9)-(Summarycalc(9)*0.15),
-        afterTax: Summarycalc(9),
-        paid: Summarycalc(11),
-        tax: Summarycalc(9)*0.15,
+      beforeTax: Summarycalc(data.value, 9)-(Summarycalc(data.value, 9)*0.15),
+        afterTax: Summarycalc(data.value, 9),
+        paid: Summarycalc(data.value, 11),
+        tax: Summarycalc(data.value, 9)*0.15,
       },
     stepActive.value = 1;
   }
@@ -45,11 +46,22 @@ const extractData = (val: any[]) => {
 
 
 onBeforeMount(async() => {
-  Promise.all(["/clients", "/products", "/branches"].map(async req=>{
+  Promise.all(["/clients", "/products", "/branches", "/taxes"].map(async req=>{
     const res = await APIrequest(credentials,'GET','v1',req, null)
     return await res.json()
     
   })).then(data=>{
+
+      allTaxes.value = data[3].data.map((d:any) => ({
+    [d.Tax.id]: {
+      id:  d.Tax.id,
+      name:  d.Tax.name,
+      included:  d.Tax.included,
+      value:  d.Tax.value,
+    },
+  }));
+
+
 
       const branchesArr = data[2].data.map((d:any) => ({
     [d.Branch.code]: d.Branch.id,
@@ -75,7 +87,7 @@ onBeforeMount(async() => {
     (p, [_, v]) => ({ ...p, [Object.keys(v)[0]]: Object.values(v)[0] }),
     {}
   );
-  }).then(()=>console.log(allClients.value, allProducts.value, allBranches.value))
+  }).then(()=>console.log(allClients.value, allProducts.value, allBranches.value, allTaxes.value))
 
     // console.log(branches)
   // GETallClients(credentials);
@@ -88,14 +100,14 @@ const onImport = async () => {
   let count = 0;
   for (let invoice of data.value) {
     const inv = Object.values(invoice);
-    console.log(typeof inv[0], inv);
     const invoiceDate = convertDate(inv[0]);
+    const paymentDate = convertDate(inv[12]);
     count++;
 
     const d: any = {
       Invoice: {
         draft: 1,
-        // "client_id": allClients[inv[1]],
+        "client_id": allClients.value[inv[1]] || 41,
         business_name: inv[2],
         address1: inv[3],
         phone1: inv[5],
@@ -107,9 +119,9 @@ const onImport = async () => {
       },
       InvoiceItem: [
         {
-          // "item": allProducts[inv[7]] || inv[7],
+          "item": allProducts.value[inv[7]] || inv[7],
           description: inv[8],
-          // unit_price: inv[9] / 1.15,
+          unit_price: +inv[9] / 1.15,
           quantity: 1,
           tax1: 1,
           product_id: inv[6],
@@ -124,25 +136,18 @@ const onImport = async () => {
         {
           payment_method: "cash",
           amount: inv[11],
-          date: inv[12],
+          date: paymentDate,
           treasury_id: inv[13],
         },
       ],
     };
     console.log(count, d);
+    const res = await APIrequest(credentials, "POST", "v1", "/invoices", d);
+    const daa = await res.json()
+    console.log(daa);
   }
-  // const res = await APIrequest({ ...credentials }, "POST", "v1", "/invoices", data.value);
-  // const res = await APIrequest(,method= "POST", d= data.value)
-  // console.log(res);
 };
 
-// const generateInvoiceStats = () =>{
-//   const count = data.value.length || 0
-//   const beforeTax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0
-//   const tax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0
-//   const afterTax = data.value.reduce((acc, curr)=>acc+curr.total, 0) || 0
-//   invoiceStats.value = {beforeTax, tax, afterTax, count}
-// }
 
 const extractHeaders = (val: any) => {
   extractedHeaders.value = val;
