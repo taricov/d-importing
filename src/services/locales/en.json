@@ -68,6 +68,13 @@
       "primaryTip": "Only one allowed",
       "mappedCol": " Select the Mapped Column"
     },
+    "stats": {
+      "count": "Invoices Count",
+      "paidCount": "paid/total",
+      "b4tax": "Total Before Tax",
+      "aftertax": "Total After Tax",
+      "tax": "Total Tax"
+    },
     "preview": {
       "good": "All Good",
       "rows": "rows"

@@ -1,7 +1,12 @@
 <script lang="ts" setup>
-// import { ref } from 'vue'
-// import { useTransition } from '@vueuse/core'
-// import { ChatLineRound, Male } from '@element-plus/icons-vue'
+import _ from "lodash";
+import { useI18n } from "vue-i18n";
+const { t } = useI18n();
+
+
+const tt = (translation: string) => {
+  return _.capitalize(t(translation));
+};
 defineProps(["invoiceStats"])
 
 </script>
@@ -12,19 +17,19 @@ defineProps(["invoiceStats"])
       <el-statistic :value="invoiceStats.paidCount">
         <template #title>
           <div style="display: inline-flex; align-items: center">
-            Invoices Count
+            {{ tt('invoices.stats.count') }}
          <!-- <el-icon style="margin-left: 4px" ><DocumentCopy /></el-icon> -->
           </div>
-          <div class="tip">(paid/total)</div>
+          <div class="tip">({{ tt('invoices.stats.paidCount') }})</div>
         </template>
         <template #suffix>/{{ invoiceStats.count || 0 }}</template>
       </el-statistic>
     </el-col>
     <el-col :span="6">
-      <el-statistic title="Total Before Tax" :value="invoiceStats.beforeTax" />
+      <el-statistic :title="tt('invoices.stats.b4tax')" :value="invoiceStats.beforeTax" />
     </el-col>
     <el-col :span="6">
-      <el-statistic title="Total Tax" :value="invoiceStats.tax">
+      <el-statistic :title="tt('invoices.stats.tax')" :value="invoiceStats.tax">
         <template #suffix>
           <!-- <el-icon style="vertical-align: -0.125em">
         <Money /></el-icon> -->
@@ -32,7 +37,7 @@ defineProps(["invoiceStats"])
       </el-statistic>
     </el-col>
     <el-col :span="6">
-      <el-statistic title="Total After Tax" :value="invoiceStats.afterTax" />
+      <el-statistic :title="tt('invoices.stats.aftertax')" :value="invoiceStats.afterTax" />
     </el-col>
   </el-row>
 </template>

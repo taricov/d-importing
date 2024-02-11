@@ -87,11 +87,6 @@ export default [
     },
     {
       related: 'payment',
-      key: 'payment_method',
-      label: 'Payment Method'
-    },
-    {
-      related: 'payment',
       key: 'amount',
       label: 'Amount'
     },
