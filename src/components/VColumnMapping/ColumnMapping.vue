@@ -17,12 +17,15 @@ const primaryCol = ref<Number>();
 let options = reactive<any>(locale.value === "en" ? enFields : arFields);
 const formVals = ref<string[]>([]);
 // const onSubmit = () => {
-//   emits("formData", formVals);
-//   console.log("from mapping...", formVals.value, formVals.value[2]);
-// };
+  //   emits("formData", formVals);
+  //   console.log("from mapping...", formVals.value, formVals.value[2]);
+  // };
+  
+  const onSelect = (val: string, i: number) => {
+    formVals.value[i] = val
+    console.log("from mapping...", formVals)
+    console.log(primaryCol.value)
 
-const onSelect = (val: string, i: number) => {
-  formVals.value[i] = val
 }
 
 </script>

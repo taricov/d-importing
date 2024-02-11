@@ -7,11 +7,10 @@ export async function APIrequest(
     key: string= '/invoices',
     data: {} | null= null
   ):Promise<Response> {
-    console.log(creds)
     const myHeaders = new Headers()
     myHeaders.append('Accept', 'application/json')
     myHeaders.append('Content-Type', 'application/json')
-    myHeaders.append('apikey', creds.apiKey)
+    myHeaders.append('apikey', creds.apikey)
 
   const requestOptions = method === "GET" ? {
     method,

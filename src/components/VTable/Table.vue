@@ -51,9 +51,16 @@ watch(() => props.data, (data, _) => {
       style="width: 100%; margin-top: 20px"
       border
     >
-    <template v-for="h in headers" :key="h">
-      <el-table-column :prop="h" :label="h" width="180" />
+    <template v-for="(h, i) in headers" :key="h">
+      <el-table-column :prop="h" :label="h" width="180" :class="[i === 2 ? 'primary-col-indictor' : '']" />
     </template>
   </el-table>
   </div>
 </template>
+<style>
+.primary-col-indictor{
+  color: red;
+  background: blue
+}
+</style>
+

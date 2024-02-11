@@ -7,6 +7,10 @@
     
 //     }
 
+export const Summarycalc = (idx:number) =>{
+  return data.value.reduce((acc, curr)=>acc+Object.values(curr)[idx],0)
+}
+
 export function convertDate(excelDate) {
     const year = excelDate.getFullYear() 
       const month = excelDate.getMonth()+1 < 10 ? `0${excelDate.getMonth()+1}` : excelDate.getMonth()+1
