@@ -38,11 +38,13 @@ const props = defineProps(["data"])
 
 watch(() => props.data, (data, _) => { 
   headers.value = Object.keys(data[0])
+  console.log(headers.value, props.data)
 })
 
 </script>
 <template>
-  <div>
+     <div class="no-preview" v-if="data.length < 2">Preview Will be available once you upload your file.</div>
+  <div v-if="data.length > 2">
   <div style="display:flex;justify-content:flex-end">
   <sub>({{ data.length }} {{ tt('invoices.preview.rows') }})</sub>
   </div>
@@ -61,6 +63,13 @@ watch(() => props.data, (data, _) => {
 .primary-col-indictor{
   color: red;
   background: blue
+}
+.no-preview{
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.4)
+
 }
 </style>
 

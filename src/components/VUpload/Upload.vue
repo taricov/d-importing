@@ -35,7 +35,6 @@ const onUploadingFile: UploadProps["onChange"] = (uploadFile, uploadFiles) => {
 };
 watch(()=>props.isCleared, (n, o) => {
   if (props.isCleared) {
-    console.log("isCleared", props.isCleared, n, o);
     fileList.value = [];
   }
 });

@@ -326,13 +326,17 @@ const tt = (translation: string) => {
         </div>
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.three')" name="preview">
-        <el-button type="success" @click="goToImport"
+        <el-button v-if="data.length > 2" type="success" @click="goToImport"
           ><el-icon class="form-icon"><Check size="18" /></el-icon>
           <span class="form-icon-label">{{
             tt("invoices.preview.good")
           }}</span></el-button
         >
+
+        <!-- <div class="no-preview" v-if="!extractedHeaders.length">Preview Will be available once you upload your file.</div> -->
         <v-table :data="data" />
+        <!-- <div  v-if="data.length > 2">
+        </div> -->
       </el-collapse-item>
       <el-collapse-item :title="tt('invoices.accordion.four')" name="import">
         <el-row>
@@ -367,7 +371,7 @@ const tt = (translation: string) => {
         </el-row>
         <el-row>
           <el-col align="center" v-if="importing">
-            <el-statistic :value="completedInvoices">
+            <el-statistic style="color: var(--el-color-success)" :value="completedInvoices">
               <template #title>
                 <div style="display: inline-flex; align-items: center">
                   Sending Invoices In Progress
@@ -412,6 +416,13 @@ const tt = (translation: string) => {
   display:flex;
   justify-content:center;
 } */
+.no-preview{
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.4)
+
+}
 .check-mark {
   position: fixed;
   left: 0;
