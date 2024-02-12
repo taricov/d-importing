@@ -7,9 +7,7 @@ import 'element-plus/theme-chalk/dark/css-vars.css'
 import { createI18n } from 'vue-i18n';
 import en from "./services/locales/en.json"
 import ar from "./services/locales/ar.json"
-//@ts-ignore
-import i18n from '../i18b';
-import { createRouter, createWebHashHistory, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 //pages
 import PageHome from "./pages/PageHome/Page.vue"
 import PageImport from "./pages/PageImport/Page.vue"

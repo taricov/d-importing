@@ -1,4 +1,4 @@
-import { Tcredentials } from './../@types/types';
+import { Tcredentials } from './../@types/types.ts';
 
 export async function APIrequest(
     creds: Tcredentials,

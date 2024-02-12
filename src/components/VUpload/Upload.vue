@@ -33,7 +33,7 @@ const onUploadingFile: UploadProps["onChange"] = (uploadFile, uploadFiles) => {
     emits("tableRows", json);
   });
 };
-watch(()=>props.isCleared, (n, o) => {
+watch(()=>props.isCleared, () => {
   if (props.isCleared) {
     fileList.value = [];
   }

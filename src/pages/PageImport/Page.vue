@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import { ref } from "vue";
+// import { ref } from "vue";
 //@ts-ignore
 import _ from "lodash";
 //@ts-ignore
 import ViewInvoice from "../../views/ViewInvoice/View.vue";
-import VHeader from "../../components/VHeader/Header.vue";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
@@ -15,13 +14,13 @@ const tt = (translation: any) => {
 
 // defineProps(["msg", "loc", "dir"])
 // const msg = ref<String>("")
-const loc = ref<String>("");
-const dir = ref<String>("");
+// const loc = ref<String>("");
+// const dir = ref<String>("");
 // const mode = ref<String>("")
-const onChangeLanguage = (newLang: string) => {
-  loc.value = newLang;
-  dir.value = loc.value === "ar" ? "rtl" : "ltr";
-};
+// const onChangeLanguage = (newLang: string) => {
+//   loc.value = newLang;
+//   dir.value = loc.value === "ar" ? "rtl" : "ltr";
+// };
 </script>
 
 <template>

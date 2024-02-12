@@ -1,17 +1,8 @@
-// import {useI18n} from 'vue-i18n' 
-
-// const {t, locale} = useI18n();
-
-// export const tt = (translation) => {
-//     return _.capitalize(t(translation))
-    
-//     }
-
-export const Summarycalc = (data, idx:number) =>{
-  return data.reduce((acc, curr)=>acc+Object.values(curr)[idx],0)
+export const Summarycalc = (data: any, idx:number) =>{
+  return data.reduce((acc: any, curr: any)=>acc+Object.values(curr)[idx],0)
 }
 
-export function convertDate(excelDate) {
+export function convertDate(excelDate: any) {
   if(typeof excelDate == "number"){
     const date = new Date(excelDate)
     const year = date.getFullYear() 
@@ -26,16 +17,3 @@ export function convertDate(excelDate) {
     return `${year}-${month}-${day}` 
   } 
     }
-
-
-  export async function downloadInvoices(){
-    function sleep(ms) {
-return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-    // this.downloading = true;
-    document.querySelectorAll(".inv-links a").forEach(async inv=>{
-      inv.click()
-      await sleep(5000)
-    })
-  }

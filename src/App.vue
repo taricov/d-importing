@@ -5,13 +5,12 @@ import _ from "lodash";
 //@ts-ignore
 import ViewInvoice from "./views/ViewInvoice/View.vue";
 import VHeader from "./components/VHeader/Header.vue";
-import { useI18n } from "vue-i18n";
 
-const { t } = useI18n();
-
-const tt = (translation: any) => {
-  return _.capitalize(t(translation));
-};
+// import { useI18n } from "vue-i18n";
+// const { t } = useI18n();
+// const tt = (translation: any) => {
+//   return _.capitalize(t(translation));
+// };
 
 // defineProps(["msg", "loc", "dir"])
 // const msg = ref<String>("")

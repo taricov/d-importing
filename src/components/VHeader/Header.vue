@@ -12,15 +12,15 @@ const tt = (translation: string) => {
 
 // Nav Bar
 
-document.querySelector('.menu-toggle')?.addEventListener("click", function(){
-  const that: any = this;
-   if(document.querySelector(".nav")?.classList.contains("mobile-nav")){document.querySelector(".nav")?.classList.add("mobile-nav");
-   document.querySelector(that)?.classList.add("is-active");
-  }else{
-    document.querySelector(".nav")?.classList.add("mobile-nav");
-   document.querySelector(that)?.classList.add("is-active");
-  }
-});
+// document.querySelector('.menu-toggle')?.addEventListener("click", function(){
+//   const that = this ;
+//    if(document.querySelector(".nav")?.classList.contains("mobile-nav")){document.querySelector(".nav")?.classList.add("mobile-nav");
+//    document.querySelector(that)?.classList.add("is-active");
+//   }else{
+//     document.querySelector(".nav")?.classList.add("mobile-nav");
+//    document.querySelector(that)?.classList.add("is-active");
+//   }
+// });
 
 </script>
 

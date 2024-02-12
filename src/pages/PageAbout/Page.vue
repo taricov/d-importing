@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import _ from "lodash";
-import { useI18n } from "vue-i18n";
-const { t } = useI18n();
 
 
-const tt = (translation: string) => {
-  return _.capitalize(t(translation));
-};
+// import { useI18n } from "vue-i18n";
+// const { t } = useI18n();
+// const tt = (translation: string) => {
+//   return _.capitalize(t(translation));
+// };
 
 </script>
 <template>
@@ -14,7 +14,6 @@ const tt = (translation: string) => {
     title="Vertical list with border"
     direction="vertical"
     :column="4"
-    :size="size"
     border
   >
     <el-descriptions-item label="Username">kooriookami</el-descriptions-item>

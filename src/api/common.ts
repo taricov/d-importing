@@ -1,4 +1,4 @@
-import { Tcredentials } from "../@types/types"
+import { Tcredentials } from "../@types/types.ts"
 
 export const credentials: Tcredentials = {
   apikey: '24b476fdd8aa43091e0963ba01b98762155c9dd4',

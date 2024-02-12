@@ -15,8 +15,8 @@ import { convertDate, Summarycalc } from "../../utils/untils";
 import { APIrequest } from "../../api";
 import { credentials } from "../../api/common";
 import { useI18n } from "vue-i18n";
-const allProducts = ref({});
-const allClients = ref({});
+const allProducts = ref<{[key: string]: any}>({});
+const allClients = ref<{[key: string]: any}>({});
 const allBranches = ref({});
 const allTaxes = ref({});
 const importing = ref<Boolean>(false);
@@ -75,7 +75,7 @@ onBeforeMount(async () => {
         [d.Branch.code]: d.Branch.id,
       }));
       allBranches.value = Object.entries(branchesArr).reduce(
-        (p, [_, v]) => ({ ...p, [Object.keys(v)[0]]: Object.values(v)[0] }),
+        (p, [_, v]) => ({ ...p, [Object.keys(v as any)[0]]: Object.values(v as any)[0] }),
         {}
       );
 
@@ -83,7 +83,7 @@ onBeforeMount(async () => {
         [d.Product.product_code]: d.Product.id,
       }));
       allProducts.value = Object.entries(productsArr).reduce(
-        (p, [_, v]) => ({ ...p, [Object.keys(v)[0]]: Object.values(v)[0] }),
+        (p, [_, v]) => ({ ...p, [Object.keys(v as any)[0]]: Object.values(v as any)[0] }),
         {}
       );
 
@@ -91,7 +91,7 @@ onBeforeMount(async () => {
         [d.Client.client_number]: d.Client.id,
       }));
       allClients.value = Object.entries(clientsArr).reduce(
-        (p, [_, v]) => ({ ...p, [Object.keys(v)[0]]: Object.values(v)[0] }),
+        (p, [_, v]) => ({ ...p, [Object.keys(v as any)[0]]: Object.values(v as any)[0] }),
         {}
       );
     })
@@ -107,25 +107,11 @@ onBeforeMount(async () => {
 });
 
 const onDownloadInvoices = async() => {
-  function sleep(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
   downloading.value = true;
   console.log(downloading.value, "b4")
-  // document.querySelectorAll(".inv-links a").forEach(async (inv) => {
-  //   const e = new Event("click")
-  //   inv.dispatchEvent(e);
-  //   await sleep(1000);
-  // });
   for(let i=0;i < createdInvoices.value.length;i++){ 
-            // const invID = res.data[i].id
             const url = `https://taricov.daftra.com/owner/invoices/view/${createdInvoices.value[i]}.pdf`
             window.open(url);
-            // console.log("b4 sleep")
-              // await sleep(5000);
-              // window.focus()
-              // console.log("after sleep")
           }
   downloading.value = false;
   console.log(downloading.value, "after")
@@ -146,7 +132,7 @@ const onImport = async () => {
   console.log(thisIs, thisIs.value);
 
   for (let invoice of data.value) {
-    const inv = Object.values(invoice);
+    const inv:{[key: string]: any} = Object.values(invoice);
     const invoiceDate = convertDate(inv[0]);
     const paymentDate = convertDate(inv[12]);
     completedInvoices.value = +completedInvoices.value + 1;
@@ -167,7 +153,7 @@ const onImport = async () => {
         {
           item: allProducts.value[inv[7]] || inv[7],
           description: inv[8],
-          unit_price: +inv[9] / 1.15,
+          unit_price: inv[9] as number / 1.15,
           quantity: 1,
           tax1: 1,
           product_id: inv[6],
@@ -205,7 +191,6 @@ const onImport = async () => {
     // document.querySelector(".inv-links")?.insertAdjacentHTML("beforeend", newLink);
   }
 };
-
 const extractHeaders = (val: any) => {
   extractedHeaders.value = val;
 };
