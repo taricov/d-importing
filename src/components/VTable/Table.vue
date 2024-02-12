@@ -43,7 +43,7 @@ watch(() => props.data, (data, _) => {
 
 </script>
 <template>
-     <div class="no-preview" v-if="data.length < 2">No Preview, Please Upload Your File.</div>
+     <div class="no-preview" v-if="data.length < 2">{{ tt('invoices.preview.noprev') }}</div>
   <div v-if="data.length > 2">
   <div style="display:flex;justify-content:flex-end">
   <sub>({{ data.length }} {{ tt('invoices.preview.rows') }})</sub>

@@ -251,7 +251,7 @@ const receiveInvoiceSettings = (val: { [key: string]: string }) =>
 const receiveColumnMapping = (val: any[]) => (columnMapping.value = val);
 
 const tt = (translation: string) => {
-  return _.capitalize(t(translation));
+  return _.upperFirst(t(translation));
 };
 
 //Notifications:
@@ -366,7 +366,7 @@ const tt = (translation: string) => {
         <el-row>
           <el-col align="center">
             <p class="import-quest" v-if="!importingComplete">
-              If you ready to send your file to Daftra ERP?
+              {{ tt('invoices.import.importQuest') }}
             </p>
             <div style="display: flex; justify-content: center">
               <br />
@@ -376,9 +376,9 @@ const tt = (translation: string) => {
                 :loading="importing"
                 style="margin: 20px auto 0; width: 50%"
                 @click="onImport"
-                type="success"
-                >{{ tt("invoices.import.import") }}</el-button
-              >
+                type="success">
+                {{ tt("invoices.import.import") }}
+                </el-button>
               <el-button
                 v-if="importingComplete"
                 style=""
@@ -409,7 +409,7 @@ const tt = (translation: string) => {
             >
               <template #title>
                 <div style="display: inline-flex; align-items: center">
-                  Sending Invoices In Progress
+                  {{ tt('invoices.import.importing') }}
                 </div>
               </template>
               <template #suffix>/{{ data.length }}</template>
@@ -421,10 +421,15 @@ const tt = (translation: string) => {
   </div>
   <Teleport to="body" v-if="successImport">
     <div class="check-mark">
+      <div style="padding: 20px 10% 40px;background:rgba(255,255,255,.9);border-radius:4px">
+      <div>
       <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
         <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none" />
         <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" />
       </svg>
+      </div>
+      <div style="color: var(--el-color-success)" class="import-quest">{{ tt('invoices.import.successMsg') }}</div>
+    </div>
     </div>
   </Teleport>
   <!-- Alert Confirm -->
@@ -467,6 +472,7 @@ const tt = (translation: string) => {
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 10;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 }

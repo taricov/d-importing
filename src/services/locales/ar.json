@@ -13,9 +13,9 @@
     "light": "مضيئ"
   },
   "pageHome":{
-    "mainLine1": "قم باستيراد كل فواتيرك إلى",
-    "mainLine2": "مرة واحدة .. قي غضون ثوانٍ.",
-    "desc": "We are a fairly small, flexible design studio that designs for print and web. We work flexibly with clients to fulfil their design needs. Whether you need to create a brand from scratch, including marketing materials and a beautiful and functional website or whether you are looking for a design refresh we are confident you will be pleased with the results.",
+    "mainLine1": "قم باستيراد كل بياناتك إلى",
+    "mainLine2": "مرة واحدة .. في غضون ثوانٍ.",
+    "desc": "هذا البرنامج سيساعدك على نقل بياناتك إلى دفترة في غضون ثوانٍ. ففي حال كانت تنتقل من برنامج قديم إلى برنامج دفترة المحاسبي، أو يتم إدخال بيانات فواتيرك بشكل دوري وتريد تحميلها على دفترة لمطابقة شروط هيئة الزكاة والدخل، أو تريد إدخال تسريع عملية تهيئة الحساب بإدخال قاعدة بيانات عملائك مرة واحدة؛ فإن هذا البرنامج هو من سينجز لك كل هذه المهام مرة واحدة.",
     "daftra": "دفترة",
     "whatOffer": "كيف ستستفيد من هذا البرنامج:",
     "feat1": "استيؤاد الفواتير/العملاء/.. مرة واحدة.",
@@ -44,10 +44,24 @@
         "strict": "افحص جيدًا",
         "next": "التالي",
         "download": "حمل القالب",
-        "skip": "تخطي"
+        "skip": "تخطي",
+        "pay1": "يمكنك اختيار إضافة عمليات دفع على الفاتورة من خلال عمود (المدفوع) بحيث ستتأثر حالة دفع الفاتورة كالتالي:",
+        "pay2": "[{Condition: 'Payment Amount = Invoice Total',Status: 'Fully Paid'},{Condition: 'Payment Amount > Invoice Total',Status: 'Partially Paid'},{Condition: 'Payment Amount = 0',Status: 'Not Paid'}]",
+        "spacialTax": "ضرائب أخرى",
+        "spacialTax1": "في حال أردت استخدام أنواع ضرائب أخرى بخلاف ضريبة القيمة المضافة.",
+        "payMethod": "طريقة الدفع",
+        "payMethod1": "في حال أردت إضافة طريقة الدفع على الفاتورة؛ فإن الخيارات المتاح إدخالها في عمود (طريقة الدفع) كالآتي:",
+        "payMethod2": "cash, cheque, bank, paytabs, cash_on_delivery",
+        "treasury": "تحديد خزينة",
+        "treasury1": "في حالة أردت أن تحدد الخزينة في عمليات دفع الفاتورة؛ فيرجى إدخال رقم/كود الخزينة في دفترة",
+        "newClients": "فواتير تحوي عملاء جدد",
+        "newClients1": "في حال كانت كل/بعض الفواتير تحوي عملاء جدد لم يتم تسجيلهم في دفترة.",
+        "newClients2": "بتفعيل هذا الاختيار؛ سيقوم البرنامج بإنشاء ملفات للعملاء الجدد في دفترة ثم إنشاء فواتير لهم. (في حال لم يتم التفعيل لهذا الاختيار مع وجود عملاء جدد، سيعلمك البرنامج بأرقام صفوف العملاء غير المسجلين لإصلاحهم."
+
       },
       "upload": {
         "tip": "الملفات المسموح بها .xlsx/.csv فقط",
+      "tip2": "عدد الملفات المسموحة -ملف واحد فقط- وفي حال رفع ملف جديد قسيلغي الملف السابق عليه",
         "txt1": "اسحب الملف أو",
         "txt2": "اضغظ لاختيار ملف"
       },
@@ -65,9 +79,15 @@
       },
       "preview": {
         "good": "تأكيد",
+      "noprev": "لا توجد بيانات، برجاء تحميل الملف المراد معاينته.",
         "rows": "صف"
       },
       "import": {
+        "successMsg": "تم إرسال الفواتير بنجاح!",
+        "importQuest": "يمكنكم إرسال الفواتير إلى دفترة الأن؟",
+        "importing": "جارٍ إرسال الفواتير",
+        "reset": "ابدأ من جديد",
+        "download": "تحميل الفواتير",
         "import": "أرسل الفواتير"
       },
       "accordion": {

@@ -5,7 +5,7 @@ const { t } = useI18n();
 
 
 const tt = (translation: string) => {
-  return _.capitalize(t(translation));
+  return _.upperFirst(t(translation));
 };
 </script>
 

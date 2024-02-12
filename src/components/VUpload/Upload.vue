@@ -63,7 +63,7 @@ watch(()=>props.isCleared, (n, o) => {
         </div>
         <div style="line-height: 0.4">
           <em style="font-size: 10px; color: var(--el-color-info)"
-            >(Only 1 file is Allowed, new file will override the old file)</em
+            >({{ tt('invoices.upload.tip2') }})</em
           >
         </div>
       </div>
