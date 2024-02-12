@@ -20,10 +20,11 @@ const allClients = ref({});
 const allBranches = ref({});
 const allTaxes = ref({});
 const importing = ref<Boolean>(false);
-const importingComplete = ref<Boolean>(true);
+const importingComplete = ref<Boolean>(false);
 const successImport = ref<Boolean>(false);
 const completedInvoices = ref<Number>(0);
 
+const downloading = ref<Boolean>(false);
 const isCleared = ref<Boolean>(false);
 const invoiceStats = ref({});
 const stepActive = ref(0);
@@ -105,18 +106,38 @@ onBeforeMount(async () => {
   // console.log(allClients.value, allProducts.value, allBranches.value);
 });
 
-const onDownloadInvoices = () => {
-  console.log("onDownloadInvoices...");
+const onDownloadInvoices = async() => {
+  function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  downloading.value = true;
+  console.log(downloading.value, "b4")
+  // document.querySelectorAll(".inv-links a").forEach(async (inv) => {
+  //   const e = new Event("click")
+  //   inv.dispatchEvent(e);
+  //   await sleep(1000);
+  // });
+  for(let i=0;i < createdInvoices.value.length;i++){ 
+            // const invID = res.data[i].id
+            const url = `https://taricov.daftra.com/owner/invoices/view/${createdInvoices.value[i]}.pdf`
+            window.open(url);
+            // console.log("b4 sleep")
+              // await sleep(5000);
+              // window.focus()
+              // console.log("after sleep")
+          }
+  downloading.value = false;
+  console.log(downloading.value, "after")
 };
 const onReset = () => {
   data.value = [{}];
   importingComplete.value = false;
   activeName.value = ["settings"];
   completedInvoices.value = 0;
-  stepActive.value = 0
+  stepActive.value = 0;
   isCleared.value = true;
   setTimeout(() => {
-    
     isCleared.value = false;
   }, 1000);
 };
@@ -128,7 +149,7 @@ const onImport = async () => {
     const inv = Object.values(invoice);
     const invoiceDate = convertDate(inv[0]);
     const paymentDate = convertDate(inv[12]);
-    completedInvoices.value = +completedInvoices.value+1
+    completedInvoices.value = +completedInvoices.value + 1;
     const d: any = {
       Invoice: {
         draft: 1,
@@ -178,8 +199,10 @@ const onImport = async () => {
       importingComplete.value = true;
       setTimeout(() => (successImport.value = false), 2000);
     }
-    // const newLink = `<a href="https://exapem.daftra.com/owner/invoices/view/${createdInvoices.value.slice(-1)}.pdf"></a>`
-    // document.querySelector(".inv-links").insertAdjacentHTML('beforeend', newLink)
+    // const newLink = `<a href="https://exapem.daftra.com/owner/invoices/view/${createdInvoices.value.slice(
+    //   -1
+    // )}.pdf"></a>`;
+    // document.querySelector(".inv-links")?.insertAdjacentHTML("beforeend", newLink);
   }
 };
 
@@ -244,6 +267,7 @@ const tt = (translation: string) => {
 </script>
 
 <template>
+  <div class="inv-links" v-show="false"></div>
   <div v-if="false" ref="thisIs"></div>
   <div class="collapse">
     <el-collapse v-model="activeName">
@@ -266,7 +290,7 @@ const tt = (translation: string) => {
           <!-- Step-based rendered componented -->
           <transition name="el-fade-in">
             <v-upload
-            :isCleared="isCleared"
+              :isCleared="isCleared"
               @headers="extractHeaders"
               @tableRows="extractData"
               v-show="stepActive == 0"
@@ -341,8 +365,13 @@ const tt = (translation: string) => {
       <el-collapse-item :title="tt('invoices.accordion.four')" name="import">
         <el-row>
           <el-col align="center">
-            <div style="display: flex;justify-content: center;">
+            <p class="import-quest" v-if="!importingComplete">
+              If you ready to send your file to Daftra ERP?
+            </p>
+            <div style="display: flex; justify-content: center">
+              <br />
               <el-button
+                :disabled="data.length < 2"
                 v-if="!importingComplete"
                 :loading="importing"
                 style="margin: 20px auto 0; width: 50%"
@@ -353,11 +382,14 @@ const tt = (translation: string) => {
               <el-button
                 v-if="importingComplete"
                 style=""
+                :disabled="!createdInvoices.length"
+                :loading="downloading"
                 @click="onDownloadInvoices"
                 type="primary"
-                >   <el-icon style="padding-inline: 3px">
-                    <Download />
-                  </el-icon>{{ tt("invoices.import.download") }}</el-button
+              >
+                <el-icon style="padding-inline: 3px">
+                  <Download /> </el-icon
+                >{{ tt("invoices.import.download") }}</el-button
               >
               <el-button
                 v-if="importingComplete"
@@ -371,7 +403,10 @@ const tt = (translation: string) => {
         </el-row>
         <el-row>
           <el-col align="center" v-if="importing">
-            <el-statistic style="color: var(--el-color-success)" :value="completedInvoices">
+            <el-statistic
+              style="color: var(--el-color-success)"
+              :value="completedInvoices"
+            >
               <template #title>
                 <div style="display: inline-flex; align-items: center">
                   Sending Invoices In Progress
@@ -416,12 +451,12 @@ const tt = (translation: string) => {
   display:flex;
   justify-content:center;
 } */
-.no-preview{
+.import-quest {
   font-size: 20px;
   font-weight: 600;
+  margin: 10px 0 0;
   text-align: center;
-  color: rgba(0, 0, 0, 0.4)
-
+  /* color: rgba(0, 0, 0, 0.7); */
 }
 .check-mark {
   position: fixed;

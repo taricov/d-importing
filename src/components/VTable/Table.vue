@@ -43,7 +43,7 @@ watch(() => props.data, (data, _) => {
 
 </script>
 <template>
-     <div class="no-preview" v-if="data.length < 2">Preview Will be available once you upload your file.</div>
+     <div class="no-preview" v-if="data.length < 2">No Preview, Please Upload Your File.</div>
   <div v-if="data.length > 2">
   <div style="display:flex;justify-content:flex-end">
   <sub>({{ data.length }} {{ tt('invoices.preview.rows') }})</sub>
@@ -68,7 +68,7 @@ watch(() => props.data, (data, _) => {
   font-size: 20px;
   font-weight: 600;
   text-align: center;
-  color: rgba(0, 0, 0, 0.4)
+  /* color: rgba(0, 0, 0, 0.4) */
 
 }
 </style>
