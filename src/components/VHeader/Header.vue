@@ -1,14 +1,22 @@
 <script setup lang="ts">
+import { ref, reactive } from "vue";
 import _ from "lodash";
 import { useI18n } from "vue-i18n";
-const { t } = useI18n();
+import type { FormInstance } from 'element-plus'
+import { GetSiteInfo } from "../../utils/daftar-api"
 
+const { t } = useI18n();
 
 const tt = (translation: string) => {
   return _.capitalize(t(translation));
 };
+const formRef = ref<FormInstance>()
 
 
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.resetFields()
+}
 
 // Nav Bar
 
@@ -22,6 +30,22 @@ const tt = (translation: string) => {
 //   }
 // });
 
+
+
+const dialogFormVisible = ref(false)
+const formLabelWidth = '140px'
+const siteInfo = ref<any>()
+const form = reactive({
+  subdomain: '',
+  apikey: '',
+})
+
+
+const GETconnect = async() => {
+  const res = await GetSiteInfo(form.subdomain, form.apikey)
+  const info = await res.json()
+  siteInfo.value = info.data.Site
+}
 </script>
 
 <template>
@@ -45,6 +69,11 @@ const tt = (translation: string) => {
       <router-link to="/import">{{ tt('header.import') }}</router-link>
       </li>
       <li class="nav-item">
+        <el-button plain @click="dialogFormVisible = true">
+    Connect
+  </el-button>
+      </li>
+      <li class="nav-item">
       <router-link to="/how-to-use">{{ tt('header.how') }}</router-link>
       
       </li>
@@ -60,6 +89,26 @@ const tt = (translation: string) => {
   </nav>
   </div>
 </div>
+
+
+<el-dialog v-model="dialogFormVisible" title="connect" width="500">
+    <el-form :model="form" ref="formRef">
+      <el-form-item label="Subdomain" :label-width="formLabelWidth">
+        <el-input v-model="form.subdomain" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="API Key" :label-width="formLabelWidth">
+        <el-input v-model="form.apikey" autocomplete="off" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button type="danger"  @click="resetForm(formRef)">Reset</el-button>
+        <el-button type="primary" @click="GETconnect">
+          Connect Now
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped>
@@ -137,7 +186,7 @@ h2 {
 .navbar ul {
   list-style: none;
   display: grid;
-  grid-template-columns: repeat(4,1fr);
+  grid-template-columns: repeat(5,1fr);
   justify-self: end;
   gap: 20px; 
 }
@@ -152,6 +201,14 @@ h2 {
   font-weight: 400;
   text-decoration: none;
   transition: color 0.3s ease-out;
+}
+.nav-item button {
+  font-size: 0.85rem;
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.3s ease-out;
+  background: transparent;
+  border: none
 }
 .nav-item.import-page a {
   color: #fff;
@@ -392,5 +449,10 @@ h2 {
   vertical-align: text-bottom;
 }
 
+.el-form-item{
+  margin: 2px 0;
+}
+</style>import { GetSiteInfo } from "../../utils/daftar-api";
+import { GetSiteInfo } from "../../utils/daftar-api";
+import { GetSiteInfo } from "../../utils/daftar-api";
 
-</style>
