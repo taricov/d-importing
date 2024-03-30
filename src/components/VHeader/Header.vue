@@ -12,7 +12,6 @@ const tt = (translation: string) => {
 };
 const formRef = ref<FormInstance>()
 
-
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
