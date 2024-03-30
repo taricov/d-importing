@@ -4,6 +4,7 @@ import _ from "lodash";
 import { useI18n } from "vue-i18n";
 import type { FormInstance } from 'element-plus'
 import { GetSiteInfo } from "../../utils/daftar-api"
+import { useStorage } from '@vueuse/core'
 
 const { t } = useI18n();
 
@@ -12,10 +13,6 @@ const tt = (translation: string) => {
 };
 const formRef = ref<FormInstance>()
 
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return
-  formEl.resetFields()
-}
 
 // Nav Bar
 
@@ -40,10 +37,18 @@ const form = reactive({
 })
 
 
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.resetFields()
+  form.subdomain = ""
+  form.apikey = ""
+}
 const GETconnect = async() => {
+  useStorage("credentials", { "subdomain": form.subdomain, "apikey": form.apikey })
   const res = await GetSiteInfo(form.subdomain, form.apikey)
   const info = await res.json()
   siteInfo.value = info.data.Site
+  console.log(siteInfo.value)
 }
 </script>
 
@@ -90,7 +95,7 @@ const GETconnect = async() => {
 </div>
 
 
-<el-dialog v-model="dialogFormVisible" title="connect" width="500">
+<el-dialog v-model="dialogFormVisible" title="Connect Your Daftra Account" width="500">
     <el-form :model="form" ref="formRef">
       <el-form-item label="Subdomain" :label-width="formLabelWidth">
         <el-input v-model="form.subdomain" autocomplete="off" />
