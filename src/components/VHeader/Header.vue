@@ -7,6 +7,7 @@ import { GetSiteInfo } from "../../utils/daftar-api"
 import { useStorage } from '@vueuse/core'
 
 const isRegistered = ref(JSON.parse(localStorage.getItem('credentials') || "{}"))
+const errors = ref({isBlank: false, blank: "The subdomain and API key fields can NOT be empty.", isNotOk: false, notOk: "Either the Subdomain or the API Key is invalid. Please, double check your credentials."})
 const { t } = useI18n();
 
 const tt = (translation: string) => {
@@ -39,6 +40,7 @@ const form = reactive({
 
 
 const resetForm = (formEl: FormInstance | undefined) => {
+  errors.value = {...errors.value, isBlank: false, isNotOk: false}
   if (!formEl) return
   formEl.resetFields()
   localStorage.clear()
@@ -47,13 +49,23 @@ const resetForm = (formEl: FormInstance | undefined) => {
   form.apikey = ""
 }
 const GETconnect = async() => {
+  errors.value = {...errors.value, isBlank: false, isNotOk: false}
   localStorage.clear()
-  const res = await GetSiteInfo(form.subdomain, form.apikey)
-  const info = await res.json()
+  if(form.subdomain === undefined || form.apikey === undefined){
+    errors.value = {...errors.value, isBlank: true}
+    console.log(form)
+  return
+}
+const res = await GetSiteInfo(form.subdomain, form.apikey)
+if(!res.ok){
+  errors.value = {...errors.value, isNotOk: true}
+return
+}
+const info = await res.json()
+console.log(res)
   siteInfo.value = info.data.Site
   useStorage("credentials", { "subdomain": form.subdomain, "apikey": form.apikey, "name": siteInfo.value.first_name + " " + siteInfo.value.last_name })
-  console.log(siteInfo.value)
-  console.log(res)
+
   if(res.ok){
     isRegistered.value.subdomain = form.subdomain
     isRegistered.value.apikey = form.apikey
@@ -75,7 +87,7 @@ const GETconnect = async() => {
         <svg  width="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128.65 139.81"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="bar1" d="M94.85,5.15,0,139.81,52.44,0H64.19Q83.17,0,94.85,5.15Z"/><polygon class="bar2" points="52.44 0 0 139.81 0 0 52.44 0"/><path class="bar3" d="M128.65,69.43q0,22.41-5.1,34.76a57.54,57.54,0,0,1-14.16,20.7A46.32,46.32,0,0,1,89.93,136a100.26,100.26,0,0,1-25.74,3.81H0L126.83,49.42A106.53,106.53,0,0,1,128.65,69.43Z"/><path class="cls-4" d="M126.83,49.42,0,139.81,94.85,5.15a50,50,0,0,1,19.31,14.78,61.41,61.41,0,0,1,11.06,22.42C125.85,44.67,126.38,47,126.83,49.42Z"/></g></g></svg>
         </div>
       
-      <div >Hi, {{ !!isRegistered.subdomain ? isRegistered.name : "" }}</div>
+      <!-- <div >Hi, {{ !!isRegistered.subdomain ? isRegistered.name : "" }}</div> -->
       </router-link>
     <div class="menu-toggle" id="mobile-menu">
       <span class="bar"></span>
@@ -117,6 +129,10 @@ const GETconnect = async() => {
       <el-form-item label="API Key" :label-width="formLabelWidth">
         <el-input :disabled="!!isRegistered.apikey" v-model="form.apikey" autocomplete="off" />
       </el-form-item>
+      <div class="error">
+      {{ errors.isBlank ? errors.blank : "" }}
+      {{ errors.isNotOk ? errors.notOk : ""}}
+      </div>
     </el-form>
     <template #footer>
       <div class="dialog-footer">
@@ -130,6 +146,12 @@ const GETconnect = async() => {
 </template>
 
 <style scoped>
+.error{
+  color: #f11c1c;
+    margin-top: 9px;
+    font-size: 13px;
+
+}
 .bar1{fill:#32ace1;}.bar2{fill:#73c6eb;}.bar3{fill:#135aa5;}.cls-4{fill:#1685c8;}
 * {
   margin: 0;
