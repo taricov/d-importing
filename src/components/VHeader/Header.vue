@@ -6,6 +6,7 @@ import type { FormInstance } from 'element-plus'
 import { GetSiteInfo } from "../../utils/daftar-api"
 import { useStorage } from '@vueuse/core'
 
+const isRegistered = ref(JSON.parse(localStorage.getItem('credentials') || "{}"))
 const { t } = useI18n();
 
 const tt = (translation: string) => {
@@ -32,23 +33,34 @@ const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 const siteInfo = ref<any>()
 const form = reactive({
-  subdomain: '',
-  apikey: '',
+  subdomain: isRegistered.value.subdomain,
+  apikey: isRegistered.value.apikey,
 })
 
 
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
+  localStorage.clear()
+  isRegistered.value = {}
   form.subdomain = ""
   form.apikey = ""
 }
 const GETconnect = async() => {
-  useStorage("credentials", { "subdomain": form.subdomain, "apikey": form.apikey })
+  localStorage.clear()
   const res = await GetSiteInfo(form.subdomain, form.apikey)
   const info = await res.json()
   siteInfo.value = info.data.Site
+  useStorage("credentials", { "subdomain": form.subdomain, "apikey": form.apikey, "name": siteInfo.value.first_name + " " + siteInfo.value.last_name })
   console.log(siteInfo.value)
+  console.log(res)
+  if(res.ok){
+    isRegistered.value.subdomain = form.subdomain
+    isRegistered.value.apikey = form.apikey
+    isRegistered.value.name = siteInfo.value.first_name + " " + siteInfo.value.last_name
+    dialogFormVisible.value = false
+    return;
+  }
 }
 </script>
 
@@ -58,10 +70,12 @@ const GETconnect = async() => {
  <div class="nav-wrapper">
   <div class="grad-bar"></div>
   <nav class="navbar">
-      <router-link to="/">
-        <div style="">
+      <router-link to="/" class="logo">
+        <div>
         <svg  width="30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128.65 139.81"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="bar1" d="M94.85,5.15,0,139.81,52.44,0H64.19Q83.17,0,94.85,5.15Z"/><polygon class="bar2" points="52.44 0 0 139.81 0 0 52.44 0"/><path class="bar3" d="M128.65,69.43q0,22.41-5.1,34.76a57.54,57.54,0,0,1-14.16,20.7A46.32,46.32,0,0,1,89.93,136a100.26,100.26,0,0,1-25.74,3.81H0L126.83,49.42A106.53,106.53,0,0,1,128.65,69.43Z"/><path class="cls-4" d="M126.83,49.42,0,139.81,94.85,5.15a50,50,0,0,1,19.31,14.78,61.41,61.41,0,0,1,11.06,22.42C125.85,44.67,126.38,47,126.83,49.42Z"/></g></g></svg>
         </div>
+      
+      <div >Hi, {{ !!isRegistered.subdomain ? isRegistered.name : "" }}</div>
       </router-link>
     <div class="menu-toggle" id="mobile-menu">
       <span class="bar"></span>
@@ -74,7 +88,7 @@ const GETconnect = async() => {
       </li>
       <li class="nav-item">
         <el-button plain @click="dialogFormVisible = true">
-    Connect
+    {{ !!isRegistered.subdomain && !!isRegistered.apikey ? "Connected" : "Connnect" }}
   </el-button>
       </li>
       <li class="nav-item">
@@ -98,10 +112,10 @@ const GETconnect = async() => {
 <el-dialog v-model="dialogFormVisible" title="Connect Your Daftra Account" width="500">
     <el-form :model="form" ref="formRef">
       <el-form-item label="Subdomain" :label-width="formLabelWidth">
-        <el-input v-model="form.subdomain" autocomplete="off" />
+        <el-input :disabled="!!isRegistered.subdomain" v-model="form.subdomain" autocomplete="off" />
       </el-form-item>
       <el-form-item label="API Key" :label-width="formLabelWidth">
-        <el-input v-model="form.apikey" autocomplete="off" />
+        <el-input :disabled="!!isRegistered.apikey" v-model="form.apikey" autocomplete="off" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -456,7 +470,12 @@ h2 {
 .el-form-item{
   margin: 2px 0;
 }
-</style>import { GetSiteInfo } from "../../utils/daftar-api";
-import { GetSiteInfo } from "../../utils/daftar-api";
-import { GetSiteInfo } from "../../utils/daftar-api";
 
+.logo{
+  text-decoration: none;
+  font-size: 13px; 
+  display: flex;
+  justify-content: start;
+align-items:center;
+}
+</style>
